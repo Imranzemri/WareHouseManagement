@@ -1,0 +1,24 @@
+name: Your Workflow Name
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16' # Update this line to use Node.js version 16
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build and Test
+      run: npm run build

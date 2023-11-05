@@ -1,0 +1,57 @@
+<div class="table-container"  *ngIf="dataSource">
+  
+    <mat-card class="card-bg">
+      <mat-card-content class="card-content">
+        <div class="logo-container">
+          <img src="\assets\logo-img.png" alt="Logo" class="logo">
+        </div>
+        <div class="text-container">
+          Review Shipments
+        </div>
+      </mat-card-content>
+    </mat-card>
+ 
+  
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    
+    <ng-container matColumnDef="ShptNmbr">
+      <th mat-header-cell  *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element; let i = index" [ngClass]="{ 'odd-row': i % 2 === 1, 'even-row': i % 2 === 0 }"> {{ element.shptNmbr }} </td>
+    </ng-container>
+    
+    
+    <ng-container matColumnDef="Name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element; let i = index" [ngClass]="{ 'odd-row': i % 2 === 1, 'even-row': i % 2 === 0 }"> {{ element.name }} </td>
+    </ng-container>
+    
+    
+    <ng-container matColumnDef="Locn">
+      <th mat-header-cell *matHeaderCellDef> Location </th>
+      <td mat-cell *matCellDef="let element; let i = index" [ngClass]="{ 'odd-row': i % 2 === 1, 'even-row': i % 2 === 0 }"> {{ element.locn }} </td>
+    </ng-container>
+    
+    
+    <ng-container matColumnDef="Qnty">
+      <th mat-header-cell *matHeaderCellDef> Quantity </th>
+      <td mat-cell *matCellDef="let element; let i = index" [ngClass]="{ 'odd-row': i % 2 === 1, 'even-row': i % 2 === 0 }"> {{ element.qnty }} </td>
+    </ng-container>
+    
+     
+      <tr mat-header-row class="header-row" *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)"></tr>
+    </table>
+    <mat-paginator
+      [length]="totalRecords"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex-1"
+      (page)="pageChangeEvent($event)"
+      [pageSizeOptions]="[5, 10,15, 20,25]"
+      showFirstLastButtons>
+    </mat-paginator>
+    <button class="back-btn" mat-raised-button color="primary" (click)="backToShipment()" type="submit"><mat-icon>arrow_back</mat-icon>Back To Shipment</button>
+    </div>
+
+
+  
+  

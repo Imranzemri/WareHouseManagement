@@ -1,0 +1,32 @@
+
+<!-- Background & animion & navbar & title -->
+<!-- <div class="container-fluid">
+  
+</div> -->
+
+<div class="page-container">
+      <!-- Background animtion-->
+  <!-- <div class="background"> -->
+    <div class="cube"></div>
+    <div class="cube"></div>
+    <div class="cube"></div>
+    <div class="cube"></div>
+   <div class="cube"></div>
+ <!-- </div> -->
+    <div class="login-container">
+      <img src="\assets\logo-img.png" alt="Logo" class="logo">
+     
+      <h2 class="login-txt">Login</h2>
+      <form (ngSubmit)="submitForm()">
+        <div>
+          <label class="font-color" for="username">Username</label>
+          <input type="text" id="username" [(ngModel)]="username" name="username" required>
+        </div>
+        <div>
+          <label class="font-color" for="password">Password</label>
+          <input type="password" id="password" [(ngModel)]="password" name="password" required>
+        </div>
+        <button  type="submit">Login</button>
+      </form>
+    </div>
+  </div>

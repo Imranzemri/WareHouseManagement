@@ -1,0 +1,172 @@
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    z-index: 1;
+
+
+    background: linear-gradient(132deg, #FC415A, #591BC5, #212335);
+    background-size: 400% 400%;
+    animation: Gradient 15s ease infinite;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    padding:0;
+    margin:0px;
+  } 
+  
+  .login-container {
+    background-color:#591BC5;
+    padding: 20px;
+    border-radius: 15px;
+    border-style:none;
+    border-color:blueviolet;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px; /* Limit the maximum width of the login form */
+    width: 90%; /* Responsive width for smaller screens */
+  }
+  
+  .font-color{
+  color: white;
+  text-align: center;
+  font-family:cursive;
+  
+  }
+  .login-txt{
+    color: white;
+    text-align: center;
+    font-family:cursive
+  }
+  .logo {
+    background-color: white;
+    width: 100px; /* Adjust the width to your preferred size */
+    height: auto; /* Maintain the aspect ratio */
+    margin-bottom: 0px; /* Add spacing between the logo and the "Login" text */
+    margin-left: 0px;
+  }
+  
+  .login-container div {
+    margin-bottom: 10px;
+  }
+  
+
+  /* Responsive button */
+button[type="submit"] {
+    display: block;
+    width: 105%; /* Make the button occupy full width */
+    padding: 12px;
+    background-color: #007bff; /* Change this to your desired button color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+   
+  }
+  
+  button[type="submit"]:hover {
+    background-color: green /* Change this to the hover color */
+  }
+  /* Responsive input fields */
+input[type="text"],
+input[type="password"] {
+  width: 100%; /* Make input fields occupy full width */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease; /* Add a transition effect for smoother change */
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color:#FC415A; /* Change border color on focus */
+  outline: none; /* Remove the default outline on focus (for accessibility) */
+}
+
+
+  
+  
+.container-fluid{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background: #FFF;
+  }
+
+  .background {
+    background: linear-gradient(132deg, #FC415A, #591BC5, #212335);
+    background-size: 400% 400%;
+    animation: Gradient 15s ease infinite;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    padding:0;
+    margin:0px;
+  }
+  .cube {
+    position: absolute;
+    top: 80vh;
+    left: 45vw;
+    width: 10px;
+    height: 10px;
+    border: solid 1px #D7D4E4;
+    transform-origin: top left;
+    transform: scale(0) rotate(0deg) translate(-50%, -50%);
+    animation: cube 12s ease-in forwards infinite;
+  }
+  .cube:nth-child(2n) {
+    border-color: #FFF ;
+  }
+  .cube:nth-child(2) {
+    animation-delay: 2s;
+    left: 25vw;
+    top: 40vh;
+  }
+  .cube:nth-child(3) {
+    animation-delay: 4s;
+    left: 75vw;
+    top: 50vh;
+  }
+  .cube:nth-child(4) {
+    animation-delay: 6s;
+    left: 90vw;
+    top: 10vh;
+  }
+  .cube:nth-child(5) {
+    animation-delay: 8s;
+    left: 10vw;
+    top: 85vh;
+  }
+  .cube:nth-child(6) {
+    animation-delay: 10s;
+    left: 50vw;
+    top: 10vh;
+  }
+
+  /* Animate Background*/
+@keyframes Gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  @keyframes cube {
+    from {
+      transform: scale(0) rotate(0deg) translate(-50%, -50%);
+      opacity: 1;
+    }
+    to {
+      transform: scale(20) rotate(960deg) translate(-50%, -50%);
+      opacity: 0;
+    }
+  }

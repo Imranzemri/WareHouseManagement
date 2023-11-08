@@ -10,21 +10,27 @@ import { CargoShipmentComponent } from './cargo-shipment/cargo-shipment.componen
 import { SuccessComponent } from './success/success.component';
 import { DriverdetailsComponent } from './driverdetails/driverdetails.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { OrdersComponent } from './orders/orders.component';
+import { ReceivingComponent } from './receiving/receiving.component';
+import { TransfersComponent } from './transfers/transfers.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'welcome', component: WelcomePageComponent },
   { path: 'blog', component: BlogComponent },
   {
   path: '',
   component: AppLayoutComponent, // Shared layout for the following routes
   children: [
-    { path: 'welcome', component: WelcomePageComponent },
     { path: 'about', component: AboutComponent },
     { path: 'contact', component: ContactComponent },
     { path: 'shipment', component: CargoShipmentComponent },
     { path: 'success', component: SuccessComponent },
-    {path: 'Driverdetails',component:DriverdetailsComponent}
+    {path: 'Driverdetails',component:DriverdetailsComponent},
+    {path: 'orders', component: OrdersComponent},
+    {path: 'receivings', component: ReceivingComponent},
+    {path: 'transfers',component:TransfersComponent}
 
   ],
 },

@@ -485,7 +485,9 @@ nav ul
 {
 	width: 14em;
 	list-style-type: none;
-	margin: 0;
+	margin: 0px;
+  margin-top: 100px;
+  margin-left: -10px;
 	padding: 1em;
 }
 

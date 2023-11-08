@@ -29,6 +29,9 @@ import { DriverdetailsComponent } from './driverdetails/driverdetails.component'
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatCardModule} from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
+import { ReceivingComponent } from './receiving/receiving.component';
+import { TransfersComponent } from './transfers/transfers.component';
+import { OrdersComponent } from './orders/orders.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +43,10 @@ import {MatRadioModule} from '@angular/material/radio';
     CargoShipmentComponent,
     SuccessComponent,
     AppLayoutComponent,
-    DriverdetailsComponent 
+    DriverdetailsComponent,
+    ReceivingComponent,
+    TransfersComponent,
+    OrdersComponent 
   ],
   imports: [
     BrowserModule,

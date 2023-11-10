@@ -10,8 +10,8 @@ import { catchError } from 'rxjs/operators';
 })
 export class ApiService {
   localUrl="https://localhost:7196/api/Shipment";
-  prodUrl="https://pwswarehouse-api.azurewebsites.net/api/Shipment"
-  private apiUrl = this.localUrl
+  prodUrl="https://pwswarehouseapi.azurewebsites.net/api/Shipment"
+  private apiUrl = this.prodUrl
    qrs:any;
    rcptNmbrs:any;
    shipNum:any;

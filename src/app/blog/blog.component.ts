@@ -304,7 +304,7 @@ shpNo:any;
 
 backToShipment()
 {
-  this.router.navigate(['/shipment']);
+  this.router.navigate(['/receivings']);
 }
 
   async succesToast(){

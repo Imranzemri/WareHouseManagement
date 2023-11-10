@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/97cfee00-8f16-4444-8100-50d31e6ae525/resourceGroups/pwswarehouse/providers/Microsoft.Web/sites/pwswarehouse",
+    "appService.deploySubpath": "dist\\new-proj"
+}

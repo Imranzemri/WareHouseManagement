@@ -23,9 +23,11 @@ export class Shipment {
 
         @JsonProperty('Dmnsn', Number)
 
-        public Dmnsn: number | null = null;
+        public Dmnsn: number | number = 0;
 
+       @JsonProperty('Wght_Unit', String)
        
+        public Wght_Unit: string = '';
 
         @JsonProperty('Wght', Number)
 
@@ -61,16 +63,12 @@ export class Shipment {
 
         public CstmRpnt: string | null = null;
 
-       
-
         @JsonProperty('Qnty', Number)
 
         public Qnty: number | null = null;
+        
+        @JsonProperty('Sts', String)
 
-       
-
- 
-
-   
+        public Sts: string | null = null;
 
 }

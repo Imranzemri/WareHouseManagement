@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./welcome-page.component.css']
 })
 export class WelcomePageComponent implements OnInit {
+  showCargoMenu: boolean = false;
   ngOnInit(): void {
     // Add the 'active' class to trigger the fading effect
     setTimeout(() => {
@@ -72,6 +73,12 @@ async toast(){
     title: 'Signed in successfully'
   });
 }
+
+
+
+  toggleCargoMenu() {
+    this.showCargoMenu = !this.showCargoMenu;
+  }
 }
 
  

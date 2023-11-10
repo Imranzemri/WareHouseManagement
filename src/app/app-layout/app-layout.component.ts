@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app-layout.component.css']
 })
 export class AppLayoutComponent {
+  showCargoMenu: boolean = false;
 
+  toggleCargoMenu() {
+    this.showCargoMenu = !this.showCargoMenu;
+  }
 }

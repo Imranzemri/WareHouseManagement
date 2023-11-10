@@ -11,9 +11,10 @@ import { catchError } from 'rxjs/operators';
 export class ApiService {
   localUrl="https://localhost:7196/api/Shipment";
   prodUrl="https://pwswarehouse-api.azurewebsites.net/api/Shipment"
-  private apiUrl = this.prodUrl
+  private apiUrl = this.localUrl
    qrs:any;
    rcptNmbrs:any;
+   shipNum:any;
    rowdata:any;
   constructor(private http: HttpClient) {}
   postFormData(data: any): Observable<string[]> {

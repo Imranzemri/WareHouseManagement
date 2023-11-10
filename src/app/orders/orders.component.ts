@@ -25,6 +25,7 @@ import { HttpClient, HttpEventType } from '@angular/common/http';
   ]
 })
 export class OrdersComponent {
+
   requiredFileType:string='';
 
   fileName = '';
@@ -120,6 +121,7 @@ export class OrdersComponent {
       this.dimensionsArray.push(`Length=${this.model.Length} Width=${this.model.Width} Height=${this.model.Height}`);
       if(this.model.Qnty==this.dimensionsArray.length)
      {
+      this.model.Dmnsn=this.model.Length+this.model.Width+this.model.Height;
       this.disableAddbtn=true;
       this.disableDimensionField=true;
      }
@@ -151,6 +153,7 @@ export class OrdersComponent {
       this.dimensionsArray.push(`Length=${this.model.Length} Width=${this.model.Width} Height=${this.model.Height}`);
       if(this.model.Qnty==this.dimensionsArray.length)
      {
+      this.model.Dmnsn=this.model.Length+this.model.Width+this.model.Height;
       this.disableAddbtn=true;
       this.disableDimensionField=true;
      }
@@ -249,6 +252,7 @@ enableAddDimBtn()
         this.totalWeight=`${this.model.Wght}kg`;
         this.weight=0;
         if(this.model.Qnty==this.weightArray.length){
+          this.model.Wght_Unit="kg";
          this.disableWghtAddBtn=true;
          this.disableWeightField=true;
         }
@@ -280,6 +284,7 @@ enableAddDimBtn()
         this.totalWeight=`${this.model.Wght}kg`;
         this.weight=0;
         if(this.model.Qnty==this.weightArray.length){
+         this.model.Wght_Unit="kg";
          this.disableWghtAddBtn=true;
          this.disableWeightField=true;
         }
@@ -304,6 +309,7 @@ enableAddDimBtn()
   }
   onSubmit() {
     if (this.validateFormFields()) {
+      this.model.Sts="Draft";
       this.convertArrayToJson();
       this.showSpinner = true;
       Swal.showLoading();
@@ -369,9 +375,6 @@ enableAddDimBtn()
       case 'bayLocation':
         this.validationStatus.bayLocation = !!this.model.Locn;
         break;
-      case 'note':
-        this.validationStatus.note = !!this.model.Note;
-        break;
       case 'images':
         this.validationStatus.images = Array.isArray(this.imagesArray) && this.imagesArray.length > 0;
         break;
@@ -390,7 +393,6 @@ enableAddDimBtn()
     this.validateField('dimensions');
     this.validateField('weight');
     this.validateField('bayLocation');
-    this.validateField('note');
     this.validateField('images');
     this.validateField('recipients');
     // Check if any field failed validation
@@ -490,6 +492,7 @@ this.uploadSub = new Subscription();
        }
        this.apiService.qrs = this.qrCodeData;
        this.apiService.rcptNmbrs=response;
+       this.apiService.shipNum=this.model.ShptNmbr;
      }
    }
 

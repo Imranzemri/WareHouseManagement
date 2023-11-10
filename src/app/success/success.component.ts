@@ -36,15 +36,18 @@ export class SuccessComponent {
   get rcptNumbers(){
     return this.apiService.rcptNmbrs;
   }
-
-  printQRCode(qrCodeURL: string, receiptNumber: string) {
+  get shipmentNumbers(){
+    return this.apiService.shipNum;
+  }
+  printQRCode(qrCodeURL: string, receiptNumber: string,shipmentNumbers:string) {
     const qrCodeWindow = window.open('', '', 'width=600,height=400');    
     if (qrCodeWindow) {
     //  qrCodeWindow.document.write(`<img src="/assets/logo-img.png" alt="QR Code" style="height: 60px; width: 100px;" /><p style="font-size: 60px; text-align: center;"><br>${receiptNumber}</p><img src="${qrCodeURL}" alt="QR Code" />`);
     qrCodeWindow.document.write(`
     <div style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
       <img src="/assets/logo-img.png" alt="QR Code" style="height: 60px; width: 100px;" />
-      <p style="font-size: 60px;">${receiptNumber}</p>
+      <p style="font-size: 40px;">${shipmentNumbers}</p>
+      <p style="font-size: 40px;">${receiptNumber}</p>
       <img src="${qrCodeURL}" alt="QR Code" />
     </div>
   `);

@@ -33,6 +33,7 @@ export class BlogComponent {
   totalRecords = 0;
   pageSize = 10;
   pageIndex = 1;
+  showSpinner: boolean = false;
 
   constructor(private apiService: ApiService,private router: Router){
     this.shipmentData=[];
@@ -51,6 +52,15 @@ pageChangeEvent(event: PageEvent) {
  
   
   getShipments(){
+    this.showSpinner = true;
+    // Swal.fire({
+    //   title: 'Loading...',
+    //   allowOutsideClick: false, 
+    //   showConfirmButton: false,  
+    // });
+    
+   Swal.showLoading();
+    
     this.apiService.getAllShipments(this.pageIndex,this.pageSize).subscribe(
       (response:any)=>{
         this.shipmentData=response.items;
@@ -60,7 +70,10 @@ pageChangeEvent(event: PageEvent) {
       },
       (error)=>{
         console.log("Api call failed",error);
-      }
+      },
+      () => {
+        Swal.close();
+    }
     );
   }
 

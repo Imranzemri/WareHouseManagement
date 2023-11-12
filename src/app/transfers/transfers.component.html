@@ -26,6 +26,9 @@
           Please Enter Number of Pieces
          </div>
       </mat-form-field> 
+      
+        <label for="selectDim"><strong>Dimension:</strong></label>
+    
       <mat-radio-group aria-label="Select an option" name="selectDim" [(ngModel)]="dimensionSelectedOption">
         <mat-radio-button value="cm" (change)="dimensionOptionSelected('cm')" [disabled]="dimensionSelectedOption !== ''">Centimeter</mat-radio-button>
         <mat-radio-button value="in" (change)="dimensionOptionSelected('in')" [disabled]="dimensionSelectedOption !== ''">Inches</mat-radio-button>
@@ -52,7 +55,7 @@
       <div class="add-button">
         <button mat-raised-button color="primary" (click)="addDimension(lenght,width,height)" [disabled]="disableAddbtn" type="submit" ><mat-icon>add_circle</mat-icon></button>
     </div>
-  
+    <label for="selectDim"><strong>Weight:</strong></label>
       <mat-radio-group aria-label="Select an option" name="selectWeight" [(ngModel)]="weightSelectedOption">
         <mat-radio-button value="kg" (change)="weightOptionSelected('kg')" [disabled]="weightSelectedOption !== ''">Kilogram</mat-radio-button>
         <mat-radio-button value="lb" (change)="weightOptionSelected('lb')" [disabled]="weightSelectedOption !== ''">Pound</mat-radio-button>
@@ -61,8 +64,14 @@
         <mat-label>Weight(lb/kg)</mat-label>
         <input matInput type="text" name="weight" [(ngModel)]="weight" (ngModelChange)="validateField('weight')" [disabled]="disableWeightField" required>
       </mat-form-field>
-   
-      
+    
+    <mat-form-field>
+        <mat-label>Total Weight</mat-label>
+        <input matInput type="text" name="totalWeight" [(ngModel)]="totalWeight" (ngModelChange)="validateField('weight')" [disabled]="true" required>
+         <div  class="error-message" *ngIf="model.Qnty">
+          <div *ngIf="model.Qnty-weightArray.length !=0">Please add weight for {{ model.Qnty-weightArray.length }} piece(s).</div>
+         </div>
+      </mat-form-field>
       <div class="add-btn-wght">
         <button mat-raised-button color="primary"  (click)="addWeight(weight)" [disabled]="disableWghtAddBtn" type="submit" ><mat-icon>add_circle</mat-icon></button>
     </div>
@@ -129,13 +138,7 @@
           <mat-form-field>
             <input type="text" matInput placeholder="Enter Custom recipients" name="additionalRecipients" [(ngModel)]="model.CstmRpnt">
           </mat-form-field>
-          <mat-form-field>
-            <mat-label>Total Weight</mat-label>
-            <input matInput type="text" name="totalWeight" [(ngModel)]="totalWeight" (ngModelChange)="validateField('weight')" [disabled]="true" required>
-             <div  class="error-message" *ngIf="model.Qnty">
-              <div *ngIf="model.Qnty-weightArray.length !=0">Please add weight for {{ model.Qnty-weightArray.length }} piece(s).</div>
-             </div>
-          </mat-form-field>
+         
           <div class="center-button">
             <button mat-raised-button color="primary"  type="submit" (click)="onSubmit()">Save<mat-icon>save</mat-icon></button>
         </div>
@@ -143,6 +146,6 @@
     </form>
   </div>
   <div class="text-container">
-    <h2>Transfers</h2>
+    <h2>Transfer</h2>
   </div>
   

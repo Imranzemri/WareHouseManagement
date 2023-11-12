@@ -16,13 +16,13 @@ export class LoginComponent {
   submitForm() {
     console.log('Username:', this.username);
     console.log('Password:', this.password);
-    this.router.navigate(['/welcome']);
-    // if(this.username=='pwswarehouse.user' && this.password=="Priority1"){
-    //   this.router.navigate(['/welcome']);
-    // }
-    // else{
-    //  this.errorToast();
-    // }
+    //this.router.navigate(['/welcome']);
+    if(this.username=='pwswarehouse.user' && this.password=="Priority1"){
+      this.router.navigate(['/welcome']);
+    }
+    else{
+     this.errorToast();
+    }
 
 
   }

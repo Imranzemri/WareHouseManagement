@@ -15,13 +15,13 @@
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     
     <ng-container matColumnDef="ShptNmbr">
-      <th mat-header-cell  *matHeaderCellDef> No. </th>
+      <th mat-header-cell  *matHeaderCellDef> Shipment Number </th>
       <td mat-cell *matCellDef="let element; let i = index" [ngClass]="{ 'odd-row': i % 2 === 1, 'even-row': i % 2 === 0 }"> {{ element.shptNmbr }} </td>
     </ng-container>
     
     
     <ng-container matColumnDef="Name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <th mat-header-cell *matHeaderCellDef> Client Name </th>
       <td mat-cell *matCellDef="let element; let i = index" [ngClass]="{ 'odd-row': i % 2 === 1, 'even-row': i % 2 === 0 }"> {{ element.name }} </td>
     </ng-container>
     

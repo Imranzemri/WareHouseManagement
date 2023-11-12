@@ -15,12 +15,12 @@
     align-items: center; /* Center the form horizontally */
     width: 100%; /* Take up the full width of the container */
     max-width: 800px;
-    min-height: 800px;
-    max-height: 800px;
+    min-height: auto;
+    max-height: auto;
     background-color: #ff5e0098;
     padding: 30px;
     border-radius: 15px;
-    margin-top: 70px; /* Add some top margin for spacing */
+    margin-top: 140px; /* Add some top margin for spacing */
     margin-bottom: -20px;
 }
 @media (min-width: 768px) {
@@ -28,7 +28,7 @@
         flex-direction: row; 
         align-items: flex-start;
         justify-content: space-between;
-        height: 800px; /* Allow the form to grow in height as needed */
+        height: auto; /* Allow the form to grow in height as needed */
     }
     .left-column{
         flex: 1; 
@@ -66,7 +66,7 @@
     display:block;
     flex-direction: row;
     justify-content:center;
-    margin-top: 40px;
+    margin-top: 190px;
     margin-left: -175px; 
   width: auto;
 }
@@ -80,10 +80,10 @@
 }
 .add-btn-wght {
     display:grid;
-    flex-direction: column;
+    flex-direction: row;
     justify-content:center;
     margin-top: -60px;
-    margin-left: 160px;
+    margin-left: 210px;
   width: auto;
 }
 .dim-col-width{
@@ -100,12 +100,16 @@
     margin-top: 5px;
 }
 .text-container {
+    position: absolute;
+    top: 125px; 
+    left: 50%; 
+    transform: translateX(-50%); 
     text-align: center;
-    margin-top: -900px;
     background-color: white !important;
     width: 250px;
-    margin-left: 620px;
+    height: 30px;
     border-radius: 15px;
     color: black !important;
-
+    z-index: 999; 
 }
+

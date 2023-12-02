@@ -13,6 +13,10 @@ import Swal from 'sweetalert2';
 import { Subscription, finalize } from 'rxjs';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 
+interface ReceiptNumberArrayItem
+{
+  RcptNmbr:string;
+}
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
@@ -68,8 +72,19 @@ export class OrdersComponent {
   disableAddbtn:boolean = true;
   disableWghtAddBtn:boolean = true;
   qty!:number |null;
-  totalWeight:string='';
+  totalWeight:number=0;
   totalDimnsn:string=''
+  counter!:number;
+  cardDescription:string='';
+  indicator:boolean=true;
+  pTypeSelected:string='';
+  rcptNoCount:number=0;
+  rcptCountDim:number=0;
+  totalPieces:number=0;
+  receiptNumberArray: ReceiptNumberArrayItem[] = [];
+  recordToAdd:number=0;
+  recordToAddWght:number=0;
+  imageCounter!:number;
 
   constructor(private http: HttpClient,private apiService: ApiService, private fb: FormBuilder, private qrCodeService: QrcodeService, private router: Router,private _service:NotificationsService) {
     this.model = new Shipment();
@@ -81,7 +96,7 @@ export class OrdersComponent {
     this.dimensionsArray=[];
     this.uploadSub = new Subscription();
 
-
+   
   }
 
   dimensionOptionSelected(option: string) {
@@ -93,43 +108,125 @@ export class OrdersComponent {
     this.disableWeightField=false;
   }
 
-  //for adding dimensions
-  addDimension(l:any,w:any,h:any) {
-    if(l==null || w==null || h==null) {
+  //selecting product type
+  pTypeOptionSelected(option: string)
+  {
+    this.pTypeSelected=option;
+
+    if(this.pTypeSelected =="Identical")
+    {
+      this.cardDescription="Please Enter Dimension and Weight for all Pieces at Once"
+    }
+    else
+    {
+      this.cardDescription=`Please add Dimension, Weight and Picture for Piece no. ${this.counter}`;
+    }
+  }
+
+  //adding fixtures for individual piece
+  addWeightandDimension(len:any,wid:any,hgt:any,wgt:any)
+  {
+    if(wgt==null || wgt==undefined || wgt=='' || wgt==0) {
       Swal.fire({
         icon: 'info',
         title: 'Information',
-        text: "Please Enter Value", 
+        text: "Please Enter Weight", 
       });
       return;
     }
+    if(len==null || wid==null || hgt==null || len==0 || wid==0 || hgt==0) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Information',
+        text: "Please Enter Dimensions", 
+      });
+      return;
+    }
+
+    this.addWeight(wgt);
+    this.addDimension(len,wid,hgt);
+    if(this.counter==this.model.Qnty)
+    {
+      this.counter = 0
+      this.indicator=false;
+      //this.cardDescription="All Infiormation Added."
+      this.rcptNoCount=0;
+      this.rcptCountDim=0;
+    }
+    else
+    {
+      this.counter++;
+      this.cardDescription=`Please add Dimension, Weight and Picture for Piece no. ${this.counter}`;
+
+    }
+  }
+
+  //for adding dimensions
+  addDimension(l:any,w:any,h:any) 
+  {
     if(this.dimensionSelectedOption=='cm')
     {
-      if(this.model.Length==0 || this.model.Length)
+      if(this.pTypeSelected=="Distinct")
       {
-        this.model.Length  +=parseFloat(l);
-        
+
+          const row:any={
+            lngth:parseFloat(l),
+            width:parseFloat(w),
+            height:parseFloat(h),
+            rcptNmbr:this.model.RcptNmbr[this.rcptCountDim].RcptNmbr.toString(),
+            shptNmbr:this.model.ShptNmbr,
+            dunit:"cm",
+            ptype:this.pTypeSelected,
+            qnty:1
+           }
+           this.model.DimensionCollection.push(row);
+           this.rcptCountDim++;
+           this.recordToAdd++;    
       }
-      if(this.model.Width==0 || this.model.Width){
-        this.model.Width +=parseFloat(w);
+      if(this.pTypeSelected=="Identical")
+      {
+        var remainingPiece=this.model!.Qnty! -this.recordToAdd;
+        const dreceiptNumbers: string[] = [];
+        for(var i=0;i<remainingPiece;i++)
+        {
+          const currentReceiptNumber = this.model.RcptNmbr[this.rcptCountDim].RcptNmbr.toString();
+         const row:any={
+          lngth:parseFloat(l),
+          width:parseFloat(w),
+          height:parseFloat(h),
+          //rcptNmbr:this.model.RcptNmbr[this.rcptCountDim].RcptNmbr.toString(),
+          shptNmbr:this.model.ShptNmbr,
+          dunit:"cm",
+          ptype:this.pTypeSelected,
+          qnty:remainingPiece
+         }
+         dreceiptNumbers.push(currentReceiptNumber);
+         //this.model.DimensionCollection.push(row);
+         this.rcptCountDim++;
+         this.recordToAdd++;
+         this.counter++;
+         if(i==remainingPiece-1)
+         {
+          row.rcptNmbr=dreceiptNumbers.join(', ');
+          this.model.DimensionCollection.push(row);
+         }
+        }
+        this.indicator=false;
       }
-      if(this.model.Height==0 || this.model.Height){
-        this.model.Height +=parseFloat(h);
-      }
-    
-    
-      this.dimensionsArray.push(`Length=${this.model.Length} Width=${this.model.Width} Height=${this.model.Height}`);
-      if(this.model.Qnty==this.dimensionsArray.length)
+      //this.dimensionsArray.push(`Length=${this.model.Length} Width=${this.model.Width} Height=${this.model.Height}`);
+      if(this.model.Qnty==this.recordToAdd)
      {
-      this.model.Dmnsn=this.model.Length+this.model.Width+this.model.Height;
+      //this.model.Dmnsn=this.model.Length+this.model.Width+this.model.Height;
       this.disableAddbtn=true;
       this.disableDimensionField=true;
+      this.rcptCountDim=0;
+      this.recordToAdd=0;
      }
      else
      {
       this.disableAddbtn=false;
      }
-      this.totalDimnsn= `L=${this.model.Length}  W=${this.model.Width} H=${this.model.Height}`;
+      //this.totalDimnsn= `L=${this.model.Length}  W=${this.model.Width} H=${this.model.Height}`;
       this.lenght=0;
       this.width=0;
       this.height=0;
@@ -137,31 +234,68 @@ export class OrdersComponent {
     }
     else if (this.dimensionSelectedOption=='in')
     {
-      if(this.model.Length==0 || this.model.Length)
+    if(this.pTypeSelected=="Distinct")
+    {
+        const row:any={
+          lngth:parseFloat(l),
+          width:parseFloat(w),
+          height:parseFloat(h),
+          rcptNmbr:this.model.RcptNmbr[this.rcptCountDim].RcptNmbr.toString(),
+          shptNmbr:this.model.ShptNmbr,
+          dunit:"in",
+          ptype:this.pTypeSelected,
+          qnty:1
+         }
+         this.model.DimensionCollection.push(row);
+         this.rcptCountDim++;
+         this.recordToAdd++;
+      
+     
+    }
+    if(this.pTypeSelected=="Identical")
+    {
+      var remainingPiece=this.model.Qnty! -this.recordToAdd;
+      const dreceiptNumbers:string[]=[];
+      for(var i=0;i<remainingPiece;i++)
       {
-        this.model.Length  +=parseFloat(l);
-        
+        const currentReceiptNumber = this.model.RcptNmbr[this.rcptCountDim].RcptNmbr.toString();
+       const row:any={
+        lngth:parseFloat(l),
+        width:parseFloat(w),
+        height:parseFloat(h),
+        rcptNmbr:this.model.RcptNmbr[this.rcptCountDim].RcptNmbr.toString(),
+        shptNmbr:this.model.ShptNmbr,
+        dunit:"in",
+        ptype:this.pTypeSelected,
+        qnty:remainingPiece
+       }
+       dreceiptNumbers.push(currentReceiptNumber);
+       //this.model.DimensionCollection.push(row);
+       this.rcptCountDim++;
+       this.recordToAdd++;
+       this.counter++;
+       if(i==remainingPiece-1)
+         {
+          row.rcptNmbr=dreceiptNumbers.join(', ');
+          this.model.DimensionCollection.push(row);
+         }
       }
-      if(this.model.Width==0 || this.model.Width){
-        this.model.Width +=parseFloat(w);
-      }
-      if(this.model.Height==0 || this.model.Height){
-        this.model.Height +=parseFloat(h);
-      }
-    
-    
-      this.dimensionsArray.push(`Length=${this.model.Length} Width=${this.model.Width} Height=${this.model.Height}`);
-      if(this.model.Qnty==this.dimensionsArray.length)
+      this.indicator=false;
+    }
+      //this.dimensionsArray.push(`Length=${this.model.Length} Width=${this.model.Width} Height=${this.model.Height}`);
+      if(this.model.Qnty==this.recordToAdd)
      {
-      this.model.Dmnsn=this.model.Length+this.model.Width+this.model.Height;
+     // this.model.Dmnsn=this.model.Length+this.model.Width+this.model.Height;
       this.disableAddbtn=true;
       this.disableDimensionField=true;
+      this.rcptCountDim=0;
+      this.recordToAdd=0;
      }
      else
      {
       this.disableAddbtn=false;
      }
-      this.totalDimnsn= `L=${this.model.Length}  W=${this.model.Width} H=${this.model.Height}`;
+      //this.totalDimnsn= `L=${this.model.Length}  W=${this.model.Width} H=${this.model.Height}`;
       this.lenght=0;
       this.width=0;
       this.height=0;
@@ -228,39 +362,113 @@ enableAddDimBtn()
   }
 
 }
+//set counter
+setCounter()
+{
+  if(this.model.Qnty ?? 0 >0)
+  {
+    this.imageCounter=1;
+    if(this.pTypeSelected == "Identical")
+    {
+      this.counter=1;
+      this.cardDescription="Please Enter Dimension and Weight for all Pieces at Once"
+    }
+    else
+    {
+      this.counter=1;
+      this.cardDescription=`Please add Dimension, Weight and Picture for Piece no. ${this.counter}`;
+    }
+  
+  }
+  if(this.model.Qnty !=this.counter)
+  {
+    if(this.pTypeSelected == "Identical")
+    {
+      this.cardDescription="Please Enter Dimension and Weight for all Pieces at Once"
+      this.indicator=true;
+    }
+    else
+    {
+      this.cardDescription=`Please add Dimension, Weight and Picture for Piece no. ${this.counter}`;
+      this.indicator=true;
+    }
+   
+  }
+
+}
 
 //for adding weight either in kg or lbs
   addWeight(wght:any)
   {
-    if(wght==null || wght==undefined || wght=='') {
-      Swal.fire({
-        icon: 'info',
-        title: 'Information',
-        text: "Please Enter Value", 
-      });
-      return;
-    }
     if(this.weightSelectedOption=="kg")
-    {
+    { 
       if(this.model.Qnty && this.model.Qnty >0)
       {
-        if(this.model.Wght==0 || this.model.Wght)
-        {
-          this.model.Wght += parseFloat(wght);
-          this.weightArray.push(wght);
+        if(wght > 0)
+        { 
+          if(this.pTypeSelected=="Distinct")
+          {
+           const row: any = {
+                wght: parseFloat(wght),
+                rcptNmbr: this.model.RcptNmbr![this.rcptNoCount].RcptNmbr.toString(),
+                shptNmbr: this.model.ShptNmbr,
+                wunit:"kg",
+                ptype:this.pTypeSelected.toString(),
+                qnty:1
+              };
+              this.model.WeightCollection.push(row);
+              this.rcptNoCount++;
+              this.recordToAddWght++;
+              this.totalWeight += parseFloat(wght);
+             
+          }
+          if(this.pTypeSelected=="Identical")
+          {
+            var remainingPieces=this.model.Qnty-this.recordToAddWght;           
+            const dreceiptNumbers:string[]=[];
+            for(var i=0; i<remainingPieces;i++)
+            {
+              const currentReceiptNumber = this.model.RcptNmbr[this.rcptNoCount].RcptNmbr.toString();
+              const  row: any = {
+                wght: wght,
+                //rcptNmbr: this.model.RcptNmbr![this.rcptNoCount].RcptNmbr.toString(),
+                shptNmbr: this.model.ShptNmbr,
+                wunit:"kg",
+                ptype:this.pTypeSelected,
+                qnty:remainingPieces
+              };
+              dreceiptNumbers.push(currentReceiptNumber);
+              //this.model.WeightCollection.push(row);
+              this.rcptNoCount++;
+              this.recordToAddWght++;
+              this.totalWeight += parseFloat(wght);
+              this.counter++;
+              if(i==remainingPieces-1)
+              {
+                row.rcptNmbr=dreceiptNumbers.join(', ');
+                this.model.WeightCollection.push(row);
+              }
+            }
+            this.indicator=false;
+          }
         }
-        this.totalWeight=`${this.model.Wght}kg`;
-        this.weight=0;
-        if(this.model.Qnty==this.weightArray.length){
-          this.model.Wght_Unit="kg";
+        // this.totalWeight=`${this.model.Wght}kg`;
+        // this.weight=this.model.Wght;
+
+        if(this.model.Qnty==this.recordToAddWght)
+        {
          this.disableWghtAddBtn=true;
          this.disableWeightField=true;
+         this.rcptNoCount=0;
+         this.recordToAddWght=0;
         }
         else
         {
           this.disableWghtAddBtn=false;
           this.disableWeightField=false;
         }
+        ///////////////////////
+
       }
       else
       {
@@ -276,17 +484,66 @@ enableAddDimBtn()
     {
       if(this.model.Qnty && this.model.Qnty >0)
       {
-        if(this.model.Wght==0 || this.model.Wght)
+        if(wght >0)
         {
-          this.model.Wght += parseFloat(wght);
-          this.weightArray.push(wght);
+          if(this.pTypeSelected=="Distinct")
+          {
+            
+              const row: any = {
+                wght: parseFloat(wght),
+                rcptNmbr: this.model.RcptNmbr![this.rcptNoCount].RcptNmbr.toString(),
+                shptNmbr: this.model.ShptNmbr,
+                wunit:"lb",
+                ptype:this.pTypeSelected,
+                qnty:1
+              };
+              this.model.WeightCollection.push(row);
+              this.rcptNoCount++;
+              this.recordToAddWght++;
+              this.totalWeight += parseFloat(wght);
+          
+          }
+          if(this.pTypeSelected=="Identical")
+          {
+            var remainingPieces=this.model.Qnty-this.recordToAddWght;
+            let totalwt:number=0;
+            const dreceiptNumbers:string[]=[];
+            for(var i=0; i<remainingPieces;i++)
+            {
+              const currentReceiptNumber = this.model.RcptNmbr[this.rcptNoCount].RcptNmbr.toString();
+              totalwt+=parseFloat(wght);
+              const row: any = {
+                wght: parseFloat(wght),
+               // rcptNmbr: this.model.RcptNmbr![this.rcptNoCount].RcptNmbr.toString(),
+                shptNmbr: this.model.ShptNmbr,
+                wunit:"lb",
+                ptype:this.pTypeSelected,
+                qnty:remainingPieces
+              };
+              dreceiptNumbers.push(currentReceiptNumber);
+              //this.model.WeightCollection.push(row);
+              this.rcptNoCount++;
+              this.recordToAddWght++;
+              this.totalWeight += parseFloat(wght);
+              this.counter++;
+              if(i==remainingPieces-1)
+              {
+                row.rcptNmbr=dreceiptNumbers.join(', ');
+                this.model.WeightCollection.push(row);
+              }
+            }
+            this.indicator=false;
+          }
         }
-        this.totalWeight=`${this.model.Wght}kg`;
-        this.weight=0;
-        if(this.model.Qnty==this.weightArray.length){
-         this.model.Wght_Unit="kg";
+        // this.totalWeight=`${this.model.Wght}kg`;
+        // this.weight=this.model.Wght;
+
+        if(this.model.Qnty==this.recordToAddWght)
+        {
          this.disableWghtAddBtn=true;
          this.disableWeightField=true;
+         this.rcptNoCount=0;
+         this.recordToAddWght=0;
         }
         else
         {
@@ -312,6 +569,10 @@ enableAddDimBtn()
       this.model.Sts="Draft";
       this.convertArrayToJson();
       this.showSpinner = true;
+      //set total rcpt nmbers to model array
+      this.model.RcptNmbr=[];
+      this.model.RcptNmbr=this.receiptNumberArray;
+      this.model.Qnty=this.totalPieces;
       Swal.showLoading();
       this.apiService.postFormData(this.model).subscribe(
         (response: string[]) => {
@@ -325,7 +586,10 @@ enableAddDimBtn()
             showConfirmButton: false,
             timer: 3000 
           });
-          this.router.navigate(['/success']);
+          this.apiService.shipmentData=this.model;
+          this.router.navigate(['/shipment-detail']);
+          //this.router.navigate(['/success']);
+
         },
         (error) => {
           // Handle the error here
@@ -364,14 +628,15 @@ enableAddDimBtn()
         break;
       case 'pieces':
          this.enableAddDimBtn();
+         this.setCounter();
         this.validationStatus.pieces = !!this.model.Qnty;
         break;
-      case 'dimensions':
-        this.validationStatus.dimensions = !!this.model.Dmnsn;
-        break;
-      case 'weight':
-        this.validationStatus.weight = !!this.model.Wght;
-        break;
+      // case 'dimensions':
+      //   this.validationStatus.dimensions = !!this.model.Dmnsn;
+      //   break;
+      // case 'weight':
+      //   this.validationStatus.weight = !!this.model.Wght;
+      //   break;
       case 'bayLocation':
         this.validationStatus.bayLocation = !!this.model.Locn;
         break;
@@ -390,10 +655,10 @@ enableAddDimBtn()
     this.validateField('clientName');
     this.validateField('shipmentNo');
     this.validateField('pieces');
-    this.validateField('dimensions');
-    this.validateField('weight');
+    //this.validateField('dimensions');
+    //this.validateField('weight');
     this.validateField('bayLocation');
-    this.validateField('images');
+    //this.validateField('images');
     this.validateField('recipients');
     // Check if any field failed validation
     return !Object.values(this.validationStatus).some((status) => !status);
@@ -429,9 +694,6 @@ enableAddDimBtn()
         const upload$ = this.http.post("https://localhost:7196/api/Shipment/UploadImage", formData, {
             reportProgress: true,
             observe: 'events'
-          //   headers: {
-          //     'Content-Type': 'multipart/form-data' // Ensure the proper content type is set
-          // }
         })
         .pipe(
             finalize(() => this.reset())
@@ -448,6 +710,11 @@ enableAddDimBtn()
         });
         this.imagesArray.push(file.name);
         this.uploadProgress=100;
+        if(this.pTypeSelected=="Identical")
+        {
+          this.imageCounter++;
+        }
+        
     }
 }
 
@@ -524,6 +791,63 @@ displayError(){
         maxLength: 10
     }
 )
+}
+
+//Generate receipt numbers
+generateReceiptNumbers(qnty:any)
+{
+  if(this.pTypeSelected=='')
+  {
+    Swal.fire({
+      icon: 'info',
+      title: 'Information',
+      text: "Please Select Product Type First", 
+    });
+    return;
+  }
+  if(!qnty)
+    {
+      Swal.fire({
+        icon: 'info',
+        title: 'Information',
+        text: "Please Enter No. of pieces", 
+      });
+      return;
+    }
+
+  this.rcptNoCount=0;
+  this.rcptCountDim=0;
+  this.recordToAdd=0;
+  this.recordToAddWght=0;
+  let lastRcptNmbr="null";
+  if(this.receiptNumberArray.length >0)
+  {
+     lastRcptNmbr=this.receiptNumberArray[this.receiptNumberArray.length-1].RcptNmbr;
+  }
+  Swal.showLoading();
+  this.apiService.GenerateReceiptNumbers(qnty,lastRcptNmbr).subscribe(
+ (response:String[])=>{
+console.log(response);
+this.model.RcptNmbr=[];
+for (let i = 0; i < response.length; i++) {
+  let receiptItem: ReceiptNumberArrayItem = {
+    RcptNmbr: response[i].toString()
+  };
+  this.model.RcptNmbr?.push(receiptItem);
+  this.receiptNumberArray.push(receiptItem);
+}
+  },
+  () =>
+  {
+    console.log("error");
+  },
+  ()=>{
+    console.log("success");
+    Swal.close();
+    this.totalPieces +=this.model.Qnty ?? 0;
+    this.imagesArray=[];
+  }
+  );
 }
 }
 

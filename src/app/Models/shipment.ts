@@ -1,39 +1,35 @@
 import { JsonProperty } from 'json2typescript';
-
+interface WeightArrayItem {
+    wght: number;
+    rcptNmbr: string;
+    shptNmbr: string;
+    wunit:string;
+    ptype:string;
+    qnty:number;
+  }
+  interface DimensionArrayItem{
+    lngth: number;
+    width:number;
+    height:number;
+    rcptNmbr: string;
+    shptNmbr: string;
+    dunit:string;
+    ptype:string;
+    qnty:number;
+  }
+   interface ReceiptNumberArrayItem
+  {
+    RcptNmbr:string;
+  }
 export class Shipment {
 
     constructor() {}
         @JsonProperty('Name', String)
 
         public Name: string = '';
-
-       
-
         @JsonProperty('ShptNmbr', String)
 
         public ShptNmbr: string = '';
-
-        @JsonProperty('Length', Number)
-        public Length: number | number = 0;
-        @JsonProperty('Width', Number)
-        public Width: number | number = 0;
-        @JsonProperty('Height', Number)
-        public Height: number | number=0;
-       
-
-        @JsonProperty('Dmnsn', Number)
-
-        public Dmnsn: number | number = 0;
-
-       @JsonProperty('Wght_Unit', String)
-       
-        public Wght_Unit: string = '';
-
-        @JsonProperty('Wght', Number)
-
-        public Wght: number | number = 0;
-
-       
 
         @JsonProperty('Locn', String)
 
@@ -69,6 +65,8 @@ export class Shipment {
         
         @JsonProperty('Sts', String)
 
-        public Sts: string | null = null;
-
+        public Sts: string | null = null; 
+         RcptNmbr: ReceiptNumberArrayItem[] =[];
+         WeightCollection:WeightArrayItem[]=[];
+         DimensionCollection:DimensionArrayItem[]=[];      
 }

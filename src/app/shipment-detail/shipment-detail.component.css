@@ -1,0 +1,136 @@
+.table-container {
+    display:block;
+    justify-content: center;
+    align-items: center;
+    height: 40vh;
+    width: 100%;
+    color:black;
+    padding-left:0%;
+  }
+  
+  table {
+    width: 20%;
+  }
+  
+  .mat-table {
+    width: 20px;
+  }
+  
+  .mat-row,
+  .mat-header-row {
+    display: contents;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color:blue;
+  
+  }
+  
+  .mat-cell,
+  .mat-header-cell {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    
+  }
+  .mat-mdc-row:hover .mat-mdc-cell {
+    border-color: currentColor;
+  }
+  .mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+  }
+  
+  .odd-row {
+    background-color:white; /* Light gray */
+  }
+  
+  .even-row {
+    background-color:white; /* White */
+  }
+.header-row{
+  background-color:teal;
+  color: white;
+}
+
+.page-color{
+  background-color: #ff5e003f;
+}
+
+.back-btn{
+  margin-top: -5%;
+
+ margin-left: 50%;
+}
+
+.card-content {
+  font-size: 20px;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  color: black; 
+  height: 40px;
+}
+
+.mat-card {
+  background-color:burlywood;
+  border: 1px solid rosybrown;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+
+}
+.card-bg{
+  background-color:white;
+}
+.logo-container {
+  margin-right: 10px; 
+}
+
+.logo {
+  width: 150px; 
+  height: 30px;; 
+}
+.text-container {
+  margin-left:0px;
+}
+
+
+
+
+
+
+.mat-elevation-z8.mat-table {
+    border-collapse: collapse !important;
+    width: 100%;
+  table-layout: fixed;
+  
+  }
+  
+  .mat-elevation-z8 th, .mat-elevation-z8 td {
+    border: 1px solid black; /* Border color */
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .mat-elevation-z8 th {
+    background-color: teal; /* Header background color */
+    width: 105px;
+  }
+  
+  /* Add odd and even row styles for better visibility */
+  .mat-elevation-z8 .odd-row {
+    background-color: white; /* Odd row background color */
+  }
+  
+  .mat-elevation-z8 .even-row {
+    background-color: white; /* Even row background color */
+  }
+  .mat-elevation-z8.mat-table th, .mat-elevation-z8.mat-table td {
+    border: 1px solid black !important; /* Border color */
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid black !important; /* Horizontal border between rows */
+    
+  }
+  .example-first-footer-row {
+    font-weight: bold;
+  }

@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppLayoutComponent {
   showCargoMenu: boolean = false;
+  isCollapsed = false;
 
   toggleCargoMenu() {
     this.showCargoMenu = !this.showCargoMenu;

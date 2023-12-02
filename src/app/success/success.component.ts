@@ -1,5 +1,4 @@
 import { Component,ElementRef,ViewChild  } from '@angular/core';
-import { CargoShipmentComponent } from '../cargo-shipment/cargo-shipment.component';
 import { ApiService } from '../api.service';
 import { NotificationsService } from 'angular2-notifications';
 
@@ -39,6 +38,8 @@ export class SuccessComponent {
   get shipmentNumbers(){
     return this.apiService.shipNum;
   }
+
+  
   printQRCode(qrCodeURL: string, receiptNumber: string, shipmentNumbers: string) {
     const qrCodeWindow = window.open('', '', 'width=600,height=400');
   

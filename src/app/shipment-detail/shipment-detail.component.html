@@ -1,0 +1,65 @@
+<div class="table-container"  *ngIf="dataSource">
+    <mat-card class="card-bg">
+      <mat-card-content class="card-content">
+        <div class="logo-container">
+          <img src="\assets\logo-img.png" alt="Logo" class="logo">
+        </div>
+        <div class="text-container">
+          Shipment Details
+        </div>
+      </mat-card-content>
+    </mat-card>
+ 
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="qnty">
+      <th mat-header-cell  *matHeaderCellDef>No. of Pieces</th>
+      <td mat-footer-cell *matCellDef="let element; let i = index" > {{ element.qnty }} </td>
+    </ng-container>
+    <ng-container matColumnDef="lngth">
+      <th mat-header-cell *matHeaderCellDef>Length</th>
+      <td mat-footer-cell *matCellDef="let element; let i = index" > {{ element.lngth }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="width">
+      <th mat-header-cell *matHeaderCellDef>Width</th>
+      <td mat-footer-cell *matCellDef="let element; let i = index" > {{ element.width }} </td>
+    </ng-container>
+    <ng-container matColumnDef="height">
+      <th mat-header-cell *matHeaderCellDef>Height</th>
+      <td mat-footer-cell *matCellDef="let element; let i = index" >{{element.height}}</td>
+    </ng-container>
+     <ng-container matColumnDef="dunit">
+        <th mat-header-cell *matHeaderCellDef>Unit (cm/in)</th>
+        <td mat-footer-cell *matCellDef="let element; let i = index" >{{element.dunit}}</td>
+      </ng-container>
+    <ng-container matColumnDef="wght">
+        <th mat-header-cell *matHeaderCellDef>Weight</th>
+        <td mat-footer-cell *matCellDef="let element; let i = index">{{element.wght}}</td>
+      </ng-container>
+      <!-- <ng-container matColumnDef="totalweight" >
+        <th style="color: white;" mat-footer-cell *matFooterCellDef [colSpan]="1 + dataSource.data.length">Total Weight in Kg= {{ totalWghtKgs().kg.toFixed(2)}} <br> Total Weight in Lb= {{totalWghtKgs().lb.toFixed(2)}}</th>
+      </ng-container> -->
+    
+      <ng-container matColumnDef="wunit">
+        <th mat-header-cell *matHeaderCellDef>Unit (kg/lb)</th>
+        <td mat-footer-cell *matCellDef="let element; let i = index">{{element.wunit}}</td>
+      </ng-container>
+      <ng-container matColumnDef="totalweight">
+        <th mat-header-cell *matHeaderCellDef>Total Weight</th>
+        <td mat-footer-cell *matCellDef="let element; let i = index">{{element.totalweight}}</td>
+      </ng-container>
+      <ng-container matColumnDef="unit">
+        <th mat-header-cell *matHeaderCellDef>Unit (kg/lb)</th>
+        <td mat-footer-cell *matCellDef="let element; let i = index">{{element.wunit}}</td>
+      </ng-container>
+
+      <tr mat-header-row class="header-row" *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>  
+      <!-- <tr mat-footer-row class="footer-row" *matFooterRowDef="['totalweight']"></tr> -->
+        </table>
+    <button mat-raised-button color="primary" class="continue-button" (click)="goToThankYouPage()">Continue</button>
+    </div>
+
+
+  
+  

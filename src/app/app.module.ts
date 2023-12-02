@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -16,7 +14,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ApiService } from './api.service';
-import { CargoShipmentComponent } from './cargo-shipment/cargo-shipment.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import { SuccessComponent } from './success/success.component';
@@ -32,6 +29,9 @@ import {MatRadioModule} from '@angular/material/radio';
 import { ReceivingComponent } from './receiving/receiving.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { OrdersComponent } from './orders/orders.component';
+import { ShipmentDetailComponent } from './shipment-detail/shipment-detail.component';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,13 +40,13 @@ import { OrdersComponent } from './orders/orders.component';
     AboutComponent,
     ContactComponent,
     BlogComponent,
-    CargoShipmentComponent,
     SuccessComponent,
     AppLayoutComponent,
     DriverdetailsComponent,
     ReceivingComponent,
     TransfersComponent,
-    OrdersComponent 
+    OrdersComponent,
+    ShipmentDetailComponent 
   ],
   imports: [
     BrowserModule,
@@ -65,7 +65,9 @@ import { OrdersComponent } from './orders/orders.component';
     MatPaginatorModule,
     MatCardModule,
     MatRadioModule,
-    SimpleNotificationsModule.forRoot()
+    SimpleNotificationsModule.forRoot(),
+    CollapseModule.forRoot(),
+    MDBBootstrapModule.forRoot(),
   ],
   providers: [ApiService],
   bootstrap: [AppComponent] 

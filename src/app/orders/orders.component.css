@@ -45,9 +45,9 @@
 
 
 .header-image {
-    position: absolute;
-    top: 0px;
-    left: 50px;
+    position: fixed;
+    top: 68px;
+    left: 0px;
     width: 300px;
     height: 80px;
     background-image: url('src\assets\logo-img.png');
@@ -66,24 +66,24 @@
     display:block;
     flex-direction: row;
     justify-content:center;
-    margin-top: 190px;
+    margin-top: 30px;
     margin-left: -175px; 
   width: auto;
 }
 .add-button {
     display:grid;
-    flex-direction: column;
+    flex-direction: row;
     justify-content:center;
-    margin-top: -60px;
-    margin-left: 220px;
+    margin-top: -10px;
+    margin-left: 50px;
   width: auto;
 }
 .add-btn-wght {
     display:grid;
     flex-direction: row;
     justify-content:center;
-    margin-top: -60px;
-    margin-left: 210px;
+    margin-top: -10px;
+    margin-left: -210px;
   width: auto;
 }
 .dim-col-width{
@@ -113,3 +113,13 @@
     z-index: 999; 
 }
 
+.inf-msg {
+    background-color: white;
+    color: black !important;
+    border-radius: 5px;
+    border: 1px solid white;
+    height: auto;
+  }
+  .inf-msg mat-card-subtitle div {
+    color: black !important;
+  }

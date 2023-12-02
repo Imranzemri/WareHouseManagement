@@ -1,10 +1,9 @@
 <div class="service-container">
     <mat-progress-spinner *ngIf="showSpinner" mode="indeterminate"></mat-progress-spinner>
-    <div class="header-image">
-      </div>
+    <!-- <div class="header-image">
+      </div> -->
     <form class="form-container" #shipmentForm="ngForm" [@fadeIn]>
      <div class="left-column">
-     
       <mat-form-field>
         <mat-label>Client</mat-label>
         <input matInput type="text" name="client" [(ngModel)]="model.Name" (ngModelChange)="validateField('clientName')" required>
@@ -20,18 +19,85 @@
          </div>
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Pieces</mat-label>
-        <input matInput type="number" name="pieces" [(ngModel)]="model.Qnty" (ngModelChange)="validateField('pieces')" required>
+        <mat-label>Bay Location</mat-label>
+        <input matInput type="text" name="bay location" [(ngModel)]="model.Locn" (ngModelChange)="validateField('bayLocation')" required>
+        <div  class="error-message" *ngIf="!validationStatus.bayLocation ">
+          Please Enter Bay Location
+         </div>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Note</mat-label>
+        <input matInput type="text" name="Note" [(ngModel)]="model.Note" >
+      </mat-form-field>
+      
+      <mat-form-field>
+        <mat-label>Select Recipients</mat-label>
+        <mat-select name="recipients" [(ngModel)]="model.Rpnt"  (ngModelChange)="validateField('email')" required>
+          <mat-option value="Accounting@priorityworldwide.com">Accounting@priorityworldwide.com</mat-option>
+          <mat-option value="Operations@priorityworldwide.com">Operations@priorityworldwide.com</mat-option>
+          <mat-option value="Exports@priorityworldwide.com">Exports@priorityworldwide.com</mat-option>
+          <mat-option value="Imports@priorityworldwide.com">Imports@priorityworldwide.com</mat-option>
+          <mat-option value="HR@priorityworldwide.com">HR@priorityworldwide.com</mat-option>
+
+        </mat-select>
+        <div class="error-message" *ngIf="!validationStatus.email">
+          Please Select Recipients
+        </div>
+      </mat-form-field>
+      <mat-form-field>
+        <input type="text" matInput placeholder="Enter Custom recipients" name="additionalRecipients" [(ngModel)]="model.CstmRpnt">
+      </mat-form-field>
+    
+      <!-- <mat-form-field class="wide-cols">       
+        <mat-label>Total Dimension</mat-label>
+        <input matInput type="text" name="dimensions" [(ngModel)]="totalDimnsn" (ngModelChange)="validateField('dimensions')" [disabled]="true" required>
+         <div  class="error-message" *ngIf="model.Qnty">
+          <div *ngIf="model.Qnty-dimensionsArray.length !=0">Please add dimension for {{ model.Qnty-dimensionsArray.length }} piece(s).</div>
+         </div>
+      </mat-form-field> -->
+     
+      <!-- <div class="add-button">
+        <button mat-raised-button color="primary" (click)="addDimension(lenght,width,height)" [disabled]="disableAddbtn" type="submit" ><mat-icon>add_circle</mat-icon></button>
+    </div> -->
+    <!-- <div  class="error-message" *ngIf="model.Qnty">
+        <div *ngIf="model.Qnty-dimensionsArray.length !=0"><strong>Please add dimension for {{ model.Qnty-dimensionsArray.length }} piece(s).</strong> </div>
+       </div> -->
+   
+    
+   
+    <!-- <div  class="error-message" *ngIf="model.Qnty">
+        <div *ngIf="model.Qnty-weightArray.length !=0"><strong>Please add weight for {{ model.Qnty-weightArray.length }} piece(s).</strong> </div>
+       </div> -->
+
+      
+    </div>
+    <div class="right-column">
+      <label for="selectProduct"><strong>Type:</strong></label>
+    <mat-radio-group aria-label="Select an option" name="selectProduct" [(ngModel)]="pTypeSelected">
+      <mat-radio-button value="Identical" (change)="pTypeOptionSelected('Identical')" >Identical</mat-radio-button>
+      <mat-radio-button value="Distinct" (change)="pTypeOptionSelected('Distinct')" >Distinct</mat-radio-button>
+    </mat-radio-group>
+    <br>
+      <mat-form-field>
+        <mat-label>No. of Pieces</mat-label>
+        <input matInput type="number" name="pieces" [(ngModel)]="model.Qnty" (focusout)="generateReceiptNumbers(model.Qnty)" (ngModelChange)="validateField('pieces')" required>
         <div  class="error-message" *ngIf="!validationStatus.pieces ">
           Please Enter Number of Pieces
          </div>
       </mat-form-field> 
+
+      <mat-card class="inf-msg" *ngIf="indicator==true && this.model.Qnty && this.model.Qnty >0 ">
+        <mat-card-subtitle>
+          <div>{{cardDescription}}</div>
+        </mat-card-subtitle>
+        </mat-card>
       
+        <br>
         <label for="selectDim"><strong>Dimension:</strong></label>
     
       <mat-radio-group aria-label="Select an option" name="selectDim" [(ngModel)]="dimensionSelectedOption">
-        <mat-radio-button value="cm" (change)="dimensionOptionSelected('cm')" [disabled]="dimensionSelectedOption !== ''">Centimeter</mat-radio-button>
-        <mat-radio-button value="in" (change)="dimensionOptionSelected('in')" [disabled]="dimensionSelectedOption !== ''">Inches</mat-radio-button>
+        <mat-radio-button value="cm" (change)="dimensionOptionSelected('cm')" >cm</mat-radio-button>
+        <mat-radio-button value="in" (change)="dimensionOptionSelected('in')" >in</mat-radio-button>
       </mat-radio-group>
       <mat-form-field class="dim-col-width">       
         <mat-label>Length</mat-label>
@@ -45,99 +111,65 @@
         <mat-label>Height</mat-label>
         <input matInput type="text" name="height" [(ngModel)]="height" (ngModelChange)="validateField('dimensions')" [disabled]="disableDimensionField" required>
       </mat-form-field>
-      <mat-form-field class="wide-cols">       
-        <mat-label>Total Dimension</mat-label>
-        <input matInput type="text" name="dimensions" [(ngModel)]="totalDimnsn" (ngModelChange)="validateField('dimensions')" [disabled]="true" required>
-         <div  class="error-message" *ngIf="model.Qnty">
-          <div *ngIf="model.Qnty-dimensionsArray.length !=0">Please add dimension for {{ model.Qnty-dimensionsArray.length }} piece(s).</div>
-         </div>
-      </mat-form-field>
-      <div class="add-button">
-        <button mat-raised-button color="primary" (click)="addDimension(lenght,width,height)" [disabled]="disableAddbtn" type="submit" ><mat-icon>add_circle</mat-icon></button>
-    </div>
-    <label for="selectDim"><strong>Weight:</strong></label>
-      <mat-radio-group aria-label="Select an option" name="selectWeight" [(ngModel)]="weightSelectedOption">
-        <mat-radio-button value="kg" (change)="weightOptionSelected('kg')" [disabled]="weightSelectedOption !== ''">Kilogram</mat-radio-button>
-        <mat-radio-button value="lb" (change)="weightOptionSelected('lb')" [disabled]="weightSelectedOption !== ''">Pound</mat-radio-button>
-      </mat-radio-group>
-      <mat-form-field class="wght-col-wdth">       
-        <mat-label>Weight(lb/kg)</mat-label>
-        <input matInput type="text" name="weight" [(ngModel)]="weight" (ngModelChange)="validateField('weight')" [disabled]="disableWeightField" required>
-      </mat-form-field>
-    
-    <mat-form-field>
-        <mat-label>Total Weight</mat-label>
-        <input matInput type="text" name="totalWeight" [(ngModel)]="totalWeight" (ngModelChange)="validateField('weight')" [disabled]="true" required>
-         <div  class="error-message" *ngIf="model.Qnty">
-          <div *ngIf="model.Qnty-weightArray.length !=0">Please add weight for {{ model.Qnty-weightArray.length }} piece(s).</div>
-         </div>
-      </mat-form-field>
-      <div class="add-btn-wght">
-        <button mat-raised-button color="primary"  (click)="addWeight(weight)" [disabled]="disableWghtAddBtn" type="submit" ><mat-icon>add_circle</mat-icon></button>
-    </div>
-    </div>
-    <div class="right-column">
+      <br>
+      <label for="selectDim"><strong>Weight:</strong></label>
+        <mat-radio-group aria-label="Select an option" name="selectWeight" [(ngModel)]="weightSelectedOption">
+          <mat-radio-button value="kg" (change)="weightOptionSelected('kg')" >kg</mat-radio-button>
+          <mat-radio-button value="lb" (change)="weightOptionSelected('lb')" >lb</mat-radio-button>
+        </mat-radio-group>
+        <mat-form-field >      
+          <mat-label>Weight(lb/kg)</mat-label>
+          <input matInput type="text" name="weight" [(ngModel)]="weight" (ngModelChange)="validateField('weight')" [disabled]="disableWeightField" required>
+        </mat-form-field>
+
+        <!-- <mat-form-field>
+          <mat-label>Total Weight</mat-label>
+          <input matInput type="text" name="totalWeight" [(ngModel)]="totalWeight" (ngModelChange)="validateField('weight')" [disabled]="true" required>
+           <div  class="error-message" *ngIf="model.Qnty">
+            <div *ngIf="model.Qnty-weightArray.length !=0">Please add weight for {{ model.Qnty-weightArray.length }} piece(s).</div>
+           </div>
+        </mat-form-field> -->
+
         <mat-form-field>
-            <mat-label>Bay Location</mat-label>
-            <input matInput type="text" name="bay location" [(ngModel)]="model.Locn" (ngModelChange)="validateField('bayLocation')" required>
-            <div  class="error-message" *ngIf="!validationStatus.bayLocation ">
-              Please Enter Bay Location
-             </div>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Note</mat-label>
-            <input matInput type="text" name="Note" [(ngModel)]="model.Note" >
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Select Image</mat-label>
-            <input
-              type="file"
-              #fileInput
-              (change)="onFileChange($event)"
-              accept="image/*"
-              style="display: none;"
-              multiple
-            />
-            <button mat-icon-button (click)="fileInput.click()">
-              <mat-icon>attach_file</mat-icon>
-            </button>
-            <input matInput [value]="form.get('file')?.value ? form.get('file')?.value.name : ''" readonly (ngModelChange)="validateField('images')" />  
+          <mat-label>Select Image</mat-label>
+          <input
+            type="file"
+            #fileInput
+            (change)="onFileChange($event)"
+            accept="image/*"
+            style="display: none;"
+            multiple
+          />
+          <button mat-icon-button (click)="fileInput.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <!-- (ngModelChange)="validateField('images')" -->
+          <input matInput [value]="form.get('file')?.value ? form.get('file')?.value.name : ''" readonly  />  
+          <!-- <div class="error-message" *ngIf="model.Qnty && model.Qnty > 0 && uploadedImages.length < model.Qnty">
+           <div *ngIf="model.Qnty - imagesArray.length !=0">Please add {{ model.Qnty - imagesArray.length }} more image(s).</div>   
+            </div> -->
             <div class="error-message" *ngIf="model.Qnty && model.Qnty > 0 && uploadedImages.length < model.Qnty">
-             <div *ngIf="model.Qnty - imagesArray.length !=0">Please add {{ model.Qnty - imagesArray.length }} more image(s).</div>   
-              </div>
-              <div  class="error-message" *ngIf="!validationStatus.images ">
-                Please Select required Number of Images
+              <div *ngIf="model.Qnty - imagesArray.length !=0 && model.Qnty-imagesArray.length >0 && pTypeSelected=='Identical' ">Please add image for Piece No.{{imageCounter}}</div>   
                </div>
+            <!-- <div  class="error-message" *ngIf="!validationStatus.images ">
+              Please Select required Number of Images
+             </div>
+   -->
+             <div class="progress">
   
-               <div class="progress">
-  
-                <mat-progress-bar class="progress-bar" mode="determinate"
-                                  [value]="uploadProgress" *ngIf="uploadProgress">
-              
-                </mat-progress-bar>
-              
-                <mat-icon class="cancel-upload" (click)="cancelUpload()" 
-                          *ngIf="uploadProgress">delete_forever</mat-icon>
-              
-              </div>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Select Recipients</mat-label>
-            <mat-select name="recipients" [(ngModel)]="model.Rpnt"  (ngModelChange)="validateField('email')" required>
-              <mat-option value="Accounting@priorityworldwide.com">Accounting@priorityworldwide.com</mat-option>
-              <mat-option value="Operations@priorityworldwide.com">Operations@priorityworldwide.com</mat-option>
-              <mat-option value="Exports@priorityworldwide.com">Exports@priorityworldwide.com</mat-option>
-              <mat-option value="Imports@priorityworldwide.com">Imports@priorityworldwide.com</mat-option>
-              <mat-option value="HR@priorityworldwide.com">HR@priorityworldwide.com</mat-option>
-  
-            </mat-select>
-            <div class="error-message" *ngIf="!validationStatus.email">
-              Please Select Recipients
+              <mat-progress-bar class="progress-bar" mode="determinate"
+                                [value]="uploadProgress" *ngIf="uploadProgress">
+            
+              </mat-progress-bar>
+            
+              <mat-icon class="cancel-upload" (click)="cancelUpload()" 
+                        *ngIf="uploadProgress">delete_forever</mat-icon>
+            
             </div>
-          </mat-form-field>
-          <mat-form-field>
-            <input type="text" matInput placeholder="Enter Custom recipients" name="additionalRecipients" [(ngModel)]="model.CstmRpnt">
-          </mat-form-field>
+        </mat-form-field>
+        <div class="add-btn-wght">
+          <button mat-raised-button color="primary"  (click)="addWeightandDimension(lenght,width,height,weight)" [disabled]="disableWghtAddBtn" type="submit" ><mat-icon>add_circle</mat-icon></button>
+      </div>
          
           <div class="center-button">
             <button mat-raised-button color="primary"  type="submit" (click)="onSubmit()">Save<mat-icon>save</mat-icon></button>

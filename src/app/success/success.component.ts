@@ -1,5 +1,5 @@
 import { Component,ElementRef,ViewChild  } from '@angular/core';
-import { ApiService } from '../api.service';
+import { ApiService } from '../Services/api.service';
 import { NotificationsService } from 'angular2-notifications';
 
 @Component({

@@ -1,6 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { ApiService } from '../Services/api.service';
-import { Shipment } from '../Models/shipment';
 import { DriverDetail } from '../Models/driver-detail.model';
 import { DataSource } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,23 +6,16 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-
-
-
+import { TransferService } from '../Services/transfer.service';
+import { OrderService } from '../Services/order.service';
 @Component({
-  selector: 'app-blog',
-  templateUrl: './blog.component.html',
-  styleUrls: ['./blog.component.css'],
-  animations: [
-    trigger('fadeIn', [
-      state('void', style({ opacity: 0 })),
-      transition(':enter', [animate('300ms ease-in', style({ opacity: 1 }))]),
-    ])
-  ]
-})
-export class BlogComponent {
- 
+  selector: 'app-rev-order',
+  templateUrl: './rev-order.component.html',
+  styleUrls: ['./rev-order.component.css'],
   
+})
+export class RevOrderComponent {
+
   @ViewChild('paginator', { static: true }) paginator!: MatPaginator;
   model:DriverDetail=new DriverDetail();
   displayedColumns: string[] = ['ShptNmbr','Name','RcptNmr','Qnty','TotalKg','TotalLb'];
@@ -35,7 +26,7 @@ export class BlogComponent {
   pageIndex = 1;
   showSpinner: boolean = false;
 
-  constructor(private apiService: ApiService,private router: Router){
+  constructor(private apiService: OrderService,private router: Router){
     this.shipmentData=[];
   }
 
@@ -61,7 +52,7 @@ pageChangeEvent(event: PageEvent) {
     
    Swal.showLoading();
     
-    this.apiService.getAllShipments(this.pageIndex,this.pageSize).subscribe(
+    this.apiService.getAllOrders(this.pageIndex,this.pageSize).subscribe(
       (response:any)=>{
         this.shipmentData=response.items;
         this.dataSource.data=this.shipmentData;
@@ -350,5 +341,3 @@ backToShipment()
     });
   }
 }
-
-

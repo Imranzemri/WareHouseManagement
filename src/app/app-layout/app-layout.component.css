@@ -1,5 +1,3 @@
-/* Add this CSS to your styles.css or styles.scss file */
-
 /* Apply a top margin to the content to prevent it from being hidden behind the fixed navbar */
 body {
   padding-top: 56px; /* Adjust this value based on your navbar height */
@@ -7,26 +5,26 @@ body {
 
 /* Custom styles for the fixed navbar */
 .navbar {
-  position: fixed; /* Add this to fix the navbar */
-  top: 0; /* Add this to position the navbar at the top */
-  width: 100%; /* Add this to make the navbar full-width */
-  background-color:cadetblue; /* Change the background color as needed */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
-  border-radius: 5px;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  background-color:cadetblue;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0px;
   height:auto;
 }
 
 .navbar-brand {
-  font-weight: bold; /* Make the brand text bold */
+  font-weight: bold;
 }
 
 .navbar-toggler {
-  border: none; /* Remove the border from the toggle button */
+  border: none;
 }
 
 .navbar-nav {
   display: flex;
-justify-content: start;
+justify-content: center;
 align-items: center;
 }
 .to-right {
@@ -35,13 +33,13 @@ padding-right: 80px;
 }
 
 .nav-item {
-  margin-right: 15px; /* Add some spacing between the navbar items */
+  margin-right: 15px;
   list-style: none;
   margin-top: -20px;
 }
 
 .nav-link {
-  color: #333333; /* Change the link color as needed */
+  color: #333333;
   margin-right: 20px;
   text-decoration: none;
 font-size:large;
@@ -51,22 +49,156 @@ font-size:large;
 }
 
 .navbar-toggler-icon {
-  background-color: #333333; /* Change the color of the toggle icon */
+  background-color: #333333;
 }
 
 
 
 .header-image {
-  width: 40px; /* Adjust the width as needed */
-  height: auto; /* Maintain aspect ratio */
+  width: 40px;
+  height: auto;
   margin-right: 10px;
   background-size: cover;
   background-position: left;
 }
 .logo {
   background-color: white;
-  width: 100px; /* Adjust the width to your preferred size */
-  height: auto; /* Maintain the aspect ratio */
-  margin-bottom: 0px; /* Add spacing between the logo and the "Login" text */
+  width: 100px;
+  height: 50px;
+  margin-bottom: 0px;
   margin-left: 0px;
+}
+
+
+.justify-between{
+  justify-content: space-between;
+}
+
+
+/* new responsive menu */
+
+  ul {
+    margin: 0;
+    padding: 0;
+    justify-content: center!important;
+    align-items: center !important;
+    display: flex;
+    height: 100px;
+    background:#112c38;
+    width: auto;
+    height: 100%;
+   /* margin-left: auto; */
+   /* overflow-x: auto; */
+   white-space: nowrap;
+  }
+  /* for tab */
+  @media (max-width:1024px) {
+
+    ul{
+        height: 100%;
+        width: auto;
+    }
+  }
+  /* for phone */
+@media (max-width:480px) {
+    ul{
+        height: 60px;
+        width: 80%;
+    }
+}
+
+  ul li {
+    list-style: none;
+    margin: 0 20px;
+    transition: 0.5s;
+  }
+
+  ul li a {
+    display: block;
+    position: relative;
+    text-decoration: none;
+    padding: 5px;
+    font-size:auto;
+    font-family: sans-serif;
+    color: #fff;
+    text-transform:capitalize;
+    transition: 0.5s;
+    filter: blur(0); /* Initially set to no blur */
+  }
+
+  ul li:hover a {
+    /* transform: scale(2); */
+    opacity: 1;
+    /* filter: blur(0); */
+    text-decoration: none;
+    color: #fff;
+  }
+
+  ul li a:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:tomato;
+    transition: 0.5s;
+     transform-origin: right;
+    transform: scaleX(0);
+    z-index: -1;
+
+  }
+
+  ul li:hover a:before {
+    transition: transform 0.5s;
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+
+   /* Blur other items when hovering over ul, but not when hovering over a specific item */
+  /* ul:hover li:not(:hover) a {
+    
+    filter: blur(5px);
+  } */
+
+ /* .mat-tool{
+    width: 100% !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+ } */
+
+
+mat-toolbar{
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-items: center !important;
+  background-color: #112c38 !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+@media (max-width:1024px) {
+mat-toolbar{
+  height: auto;
+  width: auto;
+}
+
+}
+
+
+.mat-nav-list {
+display: flex !important;
+flex-direction: row;
+margin: 0;
+  padding: 0;
+  justify-content: center !important;
+  align-items: center !important;
+  height: auto;
+  background: white;
+  width: auto;
+  height: auto;
+ margin-left: auto;
+ /* overflow-x: auto; */
+ white-space: nowrap;
+ color: white;
 }

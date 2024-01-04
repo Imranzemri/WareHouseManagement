@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { ApiService } from '../api.service';
+import { OrderService } from '../Services/order.service';
 import { Shipment } from '../Models/shipment';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -12,6 +12,7 @@ import { NotificationsService } from 'angular2-notifications';
 import Swal from 'sweetalert2';
 import { Subscription, finalize } from 'rxjs';
 import { HttpClient, HttpEventType } from '@angular/common/http';
+import { ApiService } from '../Services/api.service';
 
 interface ReceiptNumberArrayItem
 {
@@ -86,7 +87,7 @@ export class OrdersComponent {
   recordToAddWght:number=0;
   imageCounter!:number;
 
-  constructor(private http: HttpClient,private apiService: ApiService, private fb: FormBuilder, private qrCodeService: QrcodeService, private router: Router,private _service:NotificationsService) {
+  constructor(private http: HttpClient,private apiService: ApiService,private orderService:OrderService, private fb: FormBuilder, private qrCodeService: QrcodeService, private router: Router,private _service:NotificationsService) {
     this.model = new Shipment();
     this.form = this.fb.group({
       file: [''],
@@ -574,7 +575,7 @@ setCounter()
       this.model.RcptNmbr=this.receiptNumberArray;
       this.model.Qnty=this.totalPieces;
       Swal.showLoading();
-      this.apiService.postFormData(this.model).subscribe(
+      this.orderService.postFormData(this.model).subscribe(
         (response: string[]) => {
           console.log('Response:', response);
           this.generateQRCodeData(response);
@@ -690,8 +691,10 @@ setCounter()
         this.fileName = file.name;
         const formData = new FormData();
         formData.append("thumbnail", file);
+        const prodUrl="https://pwswarehouseapi.azurewebsites.net/api/Order/UploadImage";
+        const LocUrl="https://localhost:7196/api/Order/UploadImage";
 
-        const upload$ = this.http.post("https://localhost:7196/api/Shipment/UploadImage", formData, {
+        const upload$ = this.http.post(LocUrl, formData, {
             reportProgress: true,
             observe: 'events'
         })
@@ -825,7 +828,7 @@ generateReceiptNumbers(qnty:any)
      lastRcptNmbr=this.receiptNumberArray[this.receiptNumberArray.length-1].RcptNmbr;
   }
   Swal.showLoading();
-  this.apiService.GenerateReceiptNumbers(qnty,lastRcptNmbr).subscribe(
+  this.orderService.GenerateReceiptNumbers(qnty,lastRcptNmbr).subscribe(
  (response:String[])=>{
 console.log(response);
 this.model.RcptNmbr=[];

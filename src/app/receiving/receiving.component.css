@@ -100,7 +100,7 @@
     margin-top: 5px;
 }
 .text-container {
-    position: absolute;
+    position:absolute;
     top: 125px; 
     left: 50%; 
     transform: translateX(-50%); 

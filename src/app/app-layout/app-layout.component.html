@@ -38,8 +38,8 @@
 </nav> -->
 
 
-
-<nav class="navbar navbar-expand-lg fixed-top">
+<!-- Green navbar -->
+<!-- <nav class="navbar navbar-expand-lg fixed-top">
    <div class="container-fluid">     
      <div class="collapse navbar-collapse" id="navbarNav">
       <img src="\assets\logo-img.png" alt="Logo" class="logo">
@@ -56,12 +56,40 @@
             <li class="nav-item">
               <a class="nav-link active" routerLink="/orders" routerLinkActive="active"><strong>Orders</strong></a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link active" routerLink="/blog" routerLinkActive="active"><strong>Shipments</strong></a>
+            </li>
           </ul>
        
      </div>
    </div>
- </nav>
+ </nav> -->
  
+ <mat-toolbar fxLayout fxLayoutAlign="space-between center" class="justify-between navbar navbar-expand-lg fixed-top">
+    <img src="\assets\logo-img.png" alt="Logo" class="logo">
+  <ul class="justify-center ">
+      <li><a routerLink="/receivings"><strong>Home</strong></a></li>
+     <li> <mat-list-item [matMenuTriggerFor]="menu">
+
+        <a matline style="color: white;"><strong>Cargo</strong></a>
+    </mat-list-item> </li>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item  routerLink="/receivings"><strong>Receiving</strong></button>
+      <button mat-menu-item routerLink="/transfers"><strong>Transfer</strong></button>
+      <button mat-menu-item routerLink="/orders"><strong>Order</strong></button>
+    </mat-menu>
+    <li> <mat-list-item [matMenuTriggerFor]="reviewMenu">
+
+      <a matline style="color: white;"><strong>Review Shipment</strong></a>
+  </mat-list-item> </li>
+  <mat-menu #reviewMenu="matMenu">
+    <button mat-menu-item routerLink="/blog"><strong>Receiving</strong></button>
+    <button mat-menu-item routerLink="/rectransfer"><strong>Transfer</strong></button>
+    <button mat-menu-item routerLink="/revorder"><strong>Order</strong></button>
+  </mat-menu>
+      
+    </ul>
+</mat-toolbar>
  
 
  

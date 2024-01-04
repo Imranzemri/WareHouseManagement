@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ApiService } from './api.service';
+import { ApiService } from './Services/api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import { SuccessComponent } from './success/success.component';
@@ -30,8 +30,13 @@ import { ReceivingComponent } from './receiving/receiving.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ShipmentDetailComponent } from './shipment-detail/shipment-detail.component';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { TransferService } from './Services/transfer.service';
+import { OrderService } from './Services/order.service';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { RevTransferComponent } from './rev-transfer/rev-transfer.component';
+import { RevOrderComponent } from './rev-order/rev-order.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +51,9 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     ReceivingComponent,
     TransfersComponent,
     OrdersComponent,
-    ShipmentDetailComponent 
+    ShipmentDetailComponent,
+    RevTransferComponent,
+    RevOrderComponent 
   ],
   imports: [
     BrowserModule,
@@ -65,11 +72,12 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     MatPaginatorModule,
     MatCardModule,
     MatRadioModule,
+    MatToolbarModule,
+    MatListModule,
+    MatMenuModule,
     SimpleNotificationsModule.forRoot(),
-    CollapseModule.forRoot(),
-    MDBBootstrapModule.forRoot(),
   ],
-  providers: [ApiService],
+  providers: [ApiService,TransferService,OrderService],
   bootstrap: [AppComponent] 
 })
 export class AppModule { }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Shipment } from './Models/shipment';
+import { Shipment } from '../Models/shipment';
 
 
 
@@ -12,8 +12,8 @@ import { Shipment } from './Models/shipment';
 })
 export class ApiService {
   localUrl="https://localhost:7196/api/Shipment";
-  prodUrl="https://pwswarehouseapi.azurewebsites.net/api/Shipment"
-  private apiUrl = this.localUrl;
+  prodUrl="https://pwswarehouseapi.azurewebsites.net/api/Shipment";
+  private apiUrl = this.prodUrl;
    qrs:any;
    rcptNmbrs:any;
    shipNum:any;
@@ -52,8 +52,9 @@ export class ApiService {
         'Content-Type': 'application/json'
       })
     };
-
-    return this.http.post<string[]>("https://localhost:7196/api/DriverDetails", data, httpOptions)
+    var producurl="https://pwswarehouseapi.azurewebsites.net/api/Drivers";
+    var locurl="https://localhost:7196/api/Drivers";
+    return this.http.post<string[]>(producurl, data, httpOptions)
       .pipe(
         catchError(this.handleError)
       );

@@ -13,6 +13,8 @@ import { OrdersComponent } from './orders/orders.component';
 import { ReceivingComponent } from './receiving/receiving.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { ShipmentDetailComponent } from './shipment-detail/shipment-detail.component';
+import { RevOrderComponent } from './rev-order/rev-order.component';
+import { RevTransferComponent } from './rev-transfer/rev-transfer.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -20,6 +22,8 @@ const routes: Routes = [
   { path: 'welcome', component: WelcomePageComponent },
   { path: 'blog', component: BlogComponent },
   {path: 'shipment-detail', component:ShipmentDetailComponent},
+  {path: 'revorder', component:RevOrderComponent},
+  {path:'rectransfer', component:RevTransferComponent},
   {
   path: '',
   component: AppLayoutComponent, // Shared layout for the following routes

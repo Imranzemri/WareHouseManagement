@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { ApiService } from '../api.service';
+import { ApiService } from '../Services/api.service';
 import { Shipment } from '../Models/shipment';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -690,8 +690,10 @@ setCounter()
         this.fileName = file.name;
         const formData = new FormData();
         formData.append("thumbnail", file);
+        const prodUrl="https://pwswarehouseapi.azurewebsites.net/api/Transfer/UploadImage";
+        const LocUrl="https://localhost:7196/api/Transfer/UploadImage";
 
-        const upload$ = this.http.post("https://localhost:7196/api/Shipment/UploadImage", formData, {
+        const upload$ = this.http.post(LocUrl, formData, {
             reportProgress: true,
             observe: 'events'
         })
@@ -846,7 +848,28 @@ for (let i = 0; i < response.length; i++) {
     Swal.close();
     this.totalPieces +=this.model.Qnty ?? 0;
     this.imagesArray=[];
+   // this.toast();
   }
   );
+}
+
+//succes toast
+async toast(){
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  
+  Toast.fire({
+    icon: 'success',
+    title: 'Receipt Number Generated Successfully'
+  });
 }
 }

@@ -688,13 +688,13 @@ setCounter()
     const file:File = event.target.files[0];
   
     if (file) {
-        this.fileName = file.name;
+        this.fileName = this.model.ShptNmbr + '_' + file.name;
         const formData = new FormData();
-        formData.append("thumbnail", file);
+        formData.append("thumbnail", file,this.fileName);
         const prodUrl="https://pwswarehouseapi.azurewebsites.net/api/Order/UploadImage";
         const LocUrl="https://localhost:7196/api/Order/UploadImage";
 
-        const upload$ = this.http.post(LocUrl, formData, {
+        const upload$ = this.http.post(prodUrl, formData, {
             reportProgress: true,
             observe: 'events'
         })
@@ -711,7 +711,7 @@ setCounter()
            
           }
         });
-        this.imagesArray.push(file.name);
+        this.imagesArray.push(this.fileName);
         this.uploadProgress=100;
         if(this.pTypeSelected=="Identical")
         {

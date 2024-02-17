@@ -11,9 +11,23 @@
       </mat-card-content>
     </mat-card>
  
-  
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- <div *ngIf="isLoading" class="overlay"></div>
+    <div *ngIf="isLoading" class="loader">Loading...</div> -->
+    <!-- <div *ngIf="isLoading" class="overlay" [style]="overlayStyle"></div> -->
+    <!-- <mat-progress-spinner *ngIf="isLoading" class="spinner custom-spinner"  mode="indeterminate"></mat-progress-spinner> -->
+    <!-- <mat-spinner class="track" 
+mode="determinate" value="100">
+</mat-spinner> -->
+    <div class="twitter-like">
+      <mat-spinner class="background" 
+          mode="determinate" 
+        value="100">
+      </mat-spinner>
+      <mat-spinner></mat-spinner>
+      </div>
+      
     
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="ShptNmbr">
       <th mat-header-cell  *matHeaderCellDef> Shipment Number </th>
       <td mat-cell *matCellDef="let element; let i = index" [ngClass]="{ 'odd-row': i % 2 === 1, 'even-row': i % 2 === 0 }"> {{ element.shpNmbr }} </td>

@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { TransferService } from '../Services/transfer.service';
+import { HttpClient, HttpEventType } from '@angular/common/http';
+import { Subscription, finalize } from 'rxjs';
 
 @Component({
   selector: 'app-rev-transfer',
@@ -30,9 +32,12 @@ export class RevTransferComponent {
   pageSize = 10;
   pageIndex = 1;
   showSpinner: boolean = false;
+  uploadSub:Subscription;
 
-  constructor(private apiService: TransferService,private router: Router){
+  constructor(private http: HttpClient,private apiService: TransferService,private router: Router){
     this.shipmentData=[];
+    this.uploadSub = new Subscription();
+
   }
 
 
@@ -234,6 +239,45 @@ shpNo:any;
         const driverPhoto = document.getElementById('driverPhoto') as HTMLInputElement;
         const email = document.getElementById('email') as HTMLInputElement;
     
+        if (driverPhoto) 
+        {
+            const imageFile = driverPhoto.files?.[0]; // Handle null gracefully
+            
+            if (imageFile) 
+            {
+                
+
+              const fileName = 'Id'+this.shpNo + '_' + imageFile.name;
+              const formData = new FormData();
+              formData.append("thumbnail", imageFile,fileName);
+              const prodUrl="https://pwswarehouseapi.azurewebsites.net/api/Shipment/UploadImage";
+              const LocUrl="https://localhost:7196/api/Shipment/UploadImage";
+      
+              const upload$ = this.http.post(prodUrl, formData, {
+                  reportProgress: true,
+                  observe: 'events'
+              })
+              .pipe(
+                  finalize(() =>console.log('uploaded'))
+              );
+            
+              this.uploadSub = upload$.subscribe(event => {
+                if (event.type == HttpEventType.UploadProgress) {
+                  
+                  console.log('uploadeded');
+                }
+              });
+
+
+            } else
+             {
+                console.error('No image file selected');
+            }
+        } 
+        else 
+        {
+            console.error('Image element not found');
+        }
         console.log("car name",driverPhoto.value);
        
         if (carrier.value === undefined || driver.value === undefined || licensePlate.value === undefined || driverPhoto.value === undefined || email.value === undefined) 

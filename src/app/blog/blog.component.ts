@@ -10,6 +10,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Subscription, finalize } from 'rxjs';
+import { ImageuploadService } from '../Services/imageupload.service';
 
 
 
@@ -36,8 +37,9 @@ export class BlogComponent {
   pageSize = 10;
   pageIndex = 1;
   showSpinner: boolean = false;
-
-  constructor(private http: HttpClient,private apiService: ApiService,private router: Router){
+  uploadSub: Subscription;
+  isLoading=false;
+  constructor(private http: HttpClient,private apiService: ApiService,private imageUploadServc:ImageuploadService,private router: Router){
     this.shipmentData=[];
     this.uploadSub = new Subscription();
   }
@@ -63,7 +65,7 @@ pageChangeEvent(event: PageEvent) {
     // });
     
    Swal.showLoading();
-
+   //this.isLoading=true;
     this.apiService.getAllShipments(this.pageIndex,this.pageSize).subscribe(
       (response:any)=>{
         this.shipmentData=response.items;
@@ -73,9 +75,11 @@ pageChangeEvent(event: PageEvent) {
       },
       (error)=>{
         console.log("Api call failed",error);
+        Swal.close();
       },
       () => {
         Swal.close();
+        //this.isLoading=false;
     }
     );
   }
@@ -173,6 +177,7 @@ shpNo:any;
         this.model.Nme=formResult.name;
         this.model.Rpnt=formResult.email;
         this.model.ShptNmbr=this.shpNo;
+        this.isLoading=true;
         this.apiService.postDriverDetail(this.model).subscribe(
           (response:string[])=>{
             console.log("response from driverdetails",response);
@@ -186,6 +191,7 @@ shpNo:any;
           },
           (error)=>{
             Swal.close();
+            this.isLoading=false;
             Swal.fire({
               title: 'Error',
               text: 'Error Occured',
@@ -196,6 +202,8 @@ shpNo:any;
           },
           ()=>{
           //  Swal.close();
+          this.isLoading=false;
+          this.getShipments();
           }
         );
       }   
@@ -240,57 +248,18 @@ shpNo:any;
         const licensePlate = document.getElementById('licensePlate') as HTMLInputElement;
         const driverPhoto = document.getElementById('driverPhoto') as HTMLInputElement;
         const email = document.getElementById('email') as HTMLInputElement;
-
-        if (driverPhoto) 
-        {
-            const imageFile = driverPhoto.files?.[0]; // Handle null gracefully
-            
-            if (imageFile) 
-            {
-                
-
-              const fileName = 'Id'+this.shpNo + '_' + imageFile.name;
-              const formData = new FormData();
-              formData.append("thumbnail", imageFile,fileName);
-              const prodUrl="https://pwswarehouseapi.azurewebsites.net/api/Shipment/UploadImage";
-              const LocUrl="https://localhost:7196/api/Shipment/UploadImage";
-      
-              const upload$ = this.http.post(prodUrl, formData, {
-                  reportProgress: true,
-                  observe: 'events'
-              })
-              .pipe(
-                  finalize(() =>console.log('uploaded'))
-              );
-            
-              this.uploadSub = upload$.subscribe(event => {
-                
-                 Swal.fire('Image Uploaded!', '', 'info');
-              });
-
-
-            } else
-             {
-                console.error('No image file selected');
-            }
-        } 
-        else 
-        {
-            console.error('Image element not found');
-        }
-       
-       
         if (carrier.value === undefined || driver.value === undefined || licensePlate.value === undefined || driverPhoto.value === undefined || email.value === undefined) 
         {
          
           return Swal.fire('All fields are mandatory!', '', 'error');
         }
-        else{
+        else
+        {
           return {
             carrier: carrier.value,
             driver: driver.value,
             licensePlate: licensePlate.value,
-            driverPhoto: driverPhoto.value, 
+            driverPhoto: driverPhoto, 
             email: email.value,
           };
 
@@ -299,7 +268,8 @@ shpNo:any;
       },
     });
     
-    if (isConfirmed) {
+    if (isConfirmed) 
+    {
       console.log('form res',formResult.driverPhoto);
       if (formResult.carrier === "" || formResult.driver === "" || formResult.licensePlate === "" || formResult.driverPhoto ===""  ||  formResult.email === "") 
       { 
@@ -314,9 +284,12 @@ shpNo:any;
         this.model.Carir_Nme=formResult.carrier,
         this.model.Nme=formResult.driver;
         this.model.Lcns_Plt_Nmbr=formResult.licensePlate;
-        this.model.Id_Img=formResult.driverPhoto;
+        this.model.Id_Img=formResult.driverPhoto.value;
         this.model.Rpnt=formResult.email;
         this.model.ShptNmbr=this.shpNo;
+        //uploading image
+        this.uploadImage(formResult.driverPhoto);
+        this.isLoading=true;
         this.apiService.postDriverDetail(this.model).subscribe(
           (response:string[])=>{
             console.log("response from driverdetails",response);
@@ -330,6 +303,7 @@ shpNo:any;
           },
           (error)=>{
             Swal.close();
+            this.isLoading=false;
             Swal.fire({
               title: 'Error',
               text: 'Error Occured',
@@ -339,14 +313,49 @@ shpNo:any;
             });
           },
           ()=>{
+            this.isLoading=false;
           console.log("COmplete api call");
+          this.getShipments();
           }
         );     
        }
       
     }
   }
-  uploadSub: Subscription;
+
+
+  //call api to upload image
+  public uploadImage(driverPhoto:HTMLInputElement)
+  {
+    if (driverPhoto) 
+    {
+        const imageFile = driverPhoto.files?.[0];
+        
+        if (imageFile) 
+        {     
+          const fileName = 'Id'+this.shpNo + '_' + imageFile.name;
+          const formData = new FormData();
+          formData.append("thumbnail", imageFile,fileName);
+          this.uploadSub = this.imageUploadServc.UploadImage(formData).subscribe(event => {
+            
+            // Swal.fire('Image Uploaded!', '', 'info');
+            this.succesToast();
+          });
+        } 
+        else
+         {
+          this.errorToast();
+            console.error('No image file selected');
+        }
+    } 
+    else 
+    {
+        console.error('Image element not found');
+    }
+  }
+
+
+
 backToShipment()
 {
   this.router.navigate(['/receivings']);
@@ -367,7 +376,7 @@ backToShipment()
     
     Toast.fire({
       icon: 'success',
-      title: 'Signed in successfully'
+      title: 'Id Uploaded Successfully'
     });
   }
 

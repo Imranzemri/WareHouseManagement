@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import { Subscription, finalize } from 'rxjs';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { ApiService } from '../Services/api.service';
+import { ImageuploadService } from '../Services/imageupload.service';
 
 interface ReceiptNumberArrayItem
 {
@@ -87,7 +88,7 @@ export class OrdersComponent {
   recordToAddWght:number=0;
   imageCounter!:number;
 
-  constructor(private http: HttpClient,private apiService: ApiService,private orderService:OrderService, private fb: FormBuilder, private qrCodeService: QrcodeService, private router: Router,private _service:NotificationsService) {
+  constructor(private http: HttpClient,private apiService: ApiService,private imageUploadServc:ImageuploadService,private orderService:OrderService, private fb: FormBuilder, private qrCodeService: QrcodeService, private router: Router,private _service:NotificationsService) {
     this.model = new Shipment();
     this.form = this.fb.group({
       file: [''],
@@ -676,8 +677,11 @@ setCounter()
   // }
 
 
-  onFileChange(event:any) {
-    if(this.model.ShptNmbr==''){
+  //on file uploading
+  public onFileChange(event:any)
+  {
+    if(this.model.ShptNmbr=='')
+    {
       Swal.fire({
         icon: 'info',
         title: 'Information',
@@ -690,27 +694,29 @@ setCounter()
     if (file) {
         this.fileName = this.model.ShptNmbr + '_' + file.name;
         const formData = new FormData();
-        formData.append("thumbnail", file,this.fileName);
-        const prodUrl="https://pwswarehouseapi.azurewebsites.net/api/Order/UploadImage";
-        const LocUrl="https://localhost:7196/api/Order/UploadImage";
-
-        const upload$ = this.http.post(prodUrl, formData, {
-            reportProgress: true,
-            observe: 'events'
-        })
-        .pipe(
-            finalize(() => this.reset())
-        );
-      
-        this.uploadSub = upload$.subscribe(event => {
+        formData.append("thumbnail", file,this.fileName);     
+        this.uploadSub = this.imageUploadServc.UploadImage(formData).subscribe(event => {
           this.uploadProgress=20;
-          if (event.type == HttpEventType.UploadProgress) {
+          if (event.type == HttpEventType.UploadProgress)
+           {
             if (event.total) {
               this.uploadProgress = Math.round(100 * (event.loaded / event.total));
+          } 
           }
-           
-          }
-        });
+        },
+        () => {
+          this.reset();
+        },
+        () => {
+          //  Swal.fire({
+          //   icon: 'error',
+          //   title: 'Upload Error',
+          //   text: "Please Upload Image Again!", 
+          // });
+          // return;
+          console.log('image upload error');
+        }
+        );
         this.imagesArray.push(this.fileName);
         this.uploadProgress=100;
         if(this.pTypeSelected=="Identical")

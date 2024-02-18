@@ -10,7 +10,9 @@
         </div>
       </mat-card-content>
     </mat-card>
- 
+    <div class="loader-overlay" *ngIf="isLoading">
+      <div class="loader"></div>
+    </div>
   
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     

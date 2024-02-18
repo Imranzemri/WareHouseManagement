@@ -26,6 +26,7 @@ export class ApiService {
    shipmentData!:Shipment;
   constructor(private http: HttpClient) {}
 
+  //post request for Receiving records
   postFormData(data: Shipment): Observable<string[]> 
   {
     const httpOptions = {
@@ -33,7 +34,6 @@ export class ApiService {
         'Content-Type': 'application/json'
       })
     };
-
     return this.http.post<string[]>(this.apiUrl, data, httpOptions)
       .pipe(
         catchError(this.handleError)
@@ -45,12 +45,15 @@ export class ApiService {
     return throwError(error.error);
   }
 
+
+//Get request for Receiving
   getAllShipments(page:number,pageSize:number): Observable<any[]> {
     const params = { page: page.toString(), pageSize: pageSize.toString() };
     return this.http.get<any[]>(this.apiUrl,{params}).pipe(catchError(this.handleError));
   }
 
   
+  //post request for Receiving Driver details
   postDriverDetail(data: any): Observable<string[]> {
     const httpOptions = {
       headers: new HttpHeaders({

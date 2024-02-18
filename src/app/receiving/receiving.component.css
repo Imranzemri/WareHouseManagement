@@ -23,12 +23,14 @@
     margin-top: 140px; /* Add some top margin for spacing */
     margin-bottom: -20px;
 }
+
+/* for tablets */
 @media (min-width: 768px) {
     .form-container {
         flex-direction: row; 
         align-items: flex-start;
         justify-content: space-between;
-        height: auto; /* Allow the form to grow in height as needed */
+        height: auto; 
     }
     .left-column{
         flex: 1; 
@@ -42,6 +44,30 @@
         margin-top: 0px; 
     }
 }
+
+/* Media query for mobile devices */
+@media only screen and (max-width: 430px) {
+    .form-container {
+      width: 90%; /* Adjust the width as needed for smaller screens */
+      max-width: none; /* Remove the max-width for full-width on smaller screens */
+      padding: 15px; /* Adjust padding for smaller screens */
+      margin-top: 80px; /* Adjust top margin for spacing on smaller screens */
+      margin-bottom: -10px; /* Adjust bottom margin for spacing on smaller screens */
+    }
+  
+    .left-column{
+        flex: 1; 
+        margin-left: 0 50px; 
+       margin-top: 0px;
+       
+    }
+    .right-column {
+        flex: 1; 
+        margin-right: 250px;    
+        margin-top: 0px; 
+    }
+  }
+
 
 
 .header-image {
@@ -122,4 +148,11 @@
   }
   .inf-msg mat-card-subtitle div {
     color: black !important;
+  }
+
+
+  /* showing toast above nav bar */
+  .swal2-popup.swal2-toast.swal2-show {
+    z-index: 10000;
+    top: 10px;
   }

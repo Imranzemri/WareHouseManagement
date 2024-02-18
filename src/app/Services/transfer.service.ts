@@ -64,6 +64,15 @@ public GenerateReceiptNumbers(qnty: number,lastrcpNo:string): Observable<string[
         catchError(this.handleError)
       );
   }
+
+  //check Dupllicate Sipment Number
+  checkDuplicateShipmentNumber(shipmentNumber: string): Observable<any> {
+    const params = { shipmentNumber };
+    return this.http.get<any>(this.apiUrl + '/CheckDuplicateShipmentNumber', { params })
+      .pipe(catchError(this.handleError));
+  }
+
+  
   private handleError(error: any) {
     // You can handle errors as per your application's requirements.
     console.error('An error occurred:', error.error);

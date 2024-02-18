@@ -858,5 +858,27 @@ for (let i = 0; i < response.length; i++) {
   }
   );
 }
+
+
+
+//check for Duplicate Shipment Number 
+public checkDuplicateShipment(shpNmbr:string)
+{
+  this.orderService.checkDuplicateShipmentNumber(shpNmbr).subscribe(
+    (response: string)=>{
+      console.log(response);
+     // this.toast();
+    },
+    (error)=>{
+      Swal.fire({
+        icon: 'info',
+        title: 'Information',
+        text: "This Shipment Number already exists",
+      });
+      return;
+      console.log(error);
+    }
+  );
+}
 }
 

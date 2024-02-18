@@ -13,7 +13,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Shipment No</mat-label>
-      <input matInput type="text" name="shipmentNo" [(ngModel)]="model.ShptNmbr" (ngModelChange)="validateField('shipmentNo')" required>
+      <input matInput type="text" name="shipmentNo" [(ngModel)]="model.ShptNmbr" (focusout)="checkDuplicateShipment(model.ShptNmbr)" (ngModelChange)="validateField('shipmentNo')" required>
       <div  class="error-message" *ngIf="!validationStatus.shipmentNo ">
         Please Enter Shipment Number
        </div>

@@ -37,6 +37,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { RevTransferComponent } from './rev-transfer/rev-transfer.component';
 import { RevOrderComponent } from './rev-order/rev-order.component';
+import { BireportComponent } from './bireport/bireport.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +54,8 @@ import { RevOrderComponent } from './rev-order/rev-order.component';
     OrdersComponent,
     ShipmentDetailComponent,
     RevTransferComponent,
-    RevOrderComponent 
+    RevOrderComponent,
+    BireportComponent 
   ],
   imports: [
     BrowserModule,

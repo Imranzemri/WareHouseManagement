@@ -15,6 +15,7 @@ import { TransfersComponent } from './transfers/transfers.component';
 import { ShipmentDetailComponent } from './shipment-detail/shipment-detail.component';
 import { RevOrderComponent } from './rev-order/rev-order.component';
 import { RevTransferComponent } from './rev-transfer/rev-transfer.component';
+import { BireportComponent } from './bireport/bireport.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -34,7 +35,8 @@ const routes: Routes = [
     {path: 'Driverdetails',component:DriverdetailsComponent},
     {path: 'orders', component: OrdersComponent},
     {path: 'receivings', component: ReceivingComponent},
-    {path: 'transfers',component:TransfersComponent}
+    {path: 'transfers',component:TransfersComponent},
+    {path: 'report',component:BireportComponent}
 
   ],
 },

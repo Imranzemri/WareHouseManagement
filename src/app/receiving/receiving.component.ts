@@ -796,8 +796,25 @@ export class ReceivingComponent {
   //check for Duplicate Shipment Number 
   public checkDuplicateShipment(shpNmbr:string)
   {
+    if(shpNmbr==null || shpNmbr==undefined || shpNmbr=="")
+    {
+      return;
+    }
     this.apiService.checkDuplicateShipmentNumber(shpNmbr).subscribe(
       (response: string)=>{
+        if(response=="Success")
+        {
+          return;
+        }
+        else
+        {
+          Swal.fire({
+            icon: 'info',
+            title: 'Information',
+            text: "This Shipment Number already exists",
+          });
+          return;
+        }
         console.log(response);
        // this.toast();
       },
@@ -809,6 +826,9 @@ export class ReceivingComponent {
         });
         return;
         console.log(error);
+      },
+      ()=>{
+       
       }
     );
   }

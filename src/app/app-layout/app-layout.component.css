@@ -78,7 +78,7 @@ font-size:large;
 
 /* new responsive menu */
 
-  ul {
+  .ul-menu {
     margin: 0;
     padding: 0;
     justify-content: center!important;
@@ -202,4 +202,19 @@ margin: 0;
  /* overflow-x: auto; */
  white-space: nowrap;
  color: white;
+}
+
+
+
+.remove-style{
+  display: block; 
+  position: relative;
+  text-decoration: none;
+  padding: 5px;
+  font-size:auto;
+  font-family: sans-serif;
+  color: #fff;
+  text-transform:capitalize;
+  transition: 0.5s;
+  filter: blur;
 }

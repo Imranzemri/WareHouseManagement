@@ -156,3 +156,28 @@
     z-index: 10000;
     top: 10px;
   }
+
+
+  .additional-fields {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allow wrapping of fields */
+    width: 100%; /* Occupy full width of form container */
+  }
+  
+  .field {
+    margin: 5px;
+  }
+  
+  .field-group {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  
+  .dim-col-width {
+    width: 150px; /* Adjust width as needed */
+  }

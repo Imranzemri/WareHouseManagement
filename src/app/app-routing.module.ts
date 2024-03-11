@@ -17,7 +17,7 @@ import { RevOrderComponent } from './rev-order/rev-order.component';
 import { RevTransferComponent } from './rev-transfer/rev-transfer.component';
 import { BireportComponent } from './bireport/bireport.component';
 import { BiSiderbarComponent } from './bi-siderbar/bi-siderbar.component';
-import { BiSplashscreenComponent } from './bi-splashscreen/bi-splashscreen.component';
+import { BiHomeComponent } from './bi-home/bi-home.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -38,16 +38,18 @@ const routes: Routes = [
     {path: 'orders', component: OrdersComponent},
     {path: 'receivings', component: ReceivingComponent},
     {path: 'transfers',component:TransfersComponent},
-    {path: 'report',component:BireportComponent}
 
   ],
 },
-{path: '',
-component:BiSiderbarComponent,
+{
+  path: '',
+component: BiSiderbarComponent,
 children:[
-  {path:'splash',component:BiSplashscreenComponent},
   {path:'report',component:BireportComponent},
-]}
+  {path: 'home',component:BiHomeComponent},
+
+],
+},
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],

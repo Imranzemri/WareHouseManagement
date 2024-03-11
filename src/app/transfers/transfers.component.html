@@ -33,11 +33,11 @@
     <mat-form-field>
       <mat-label>Select Recipients</mat-label>
       <mat-select name="recipients" [(ngModel)]="model.Rpnt"  (ngModelChange)="validateField('email')" required>
-        <mat-option value="Accounting@priorityworldwide.com">Accounting@priorityworldwide.com</mat-option>
-        <mat-option value="Operations@priorityworldwide.com">Operations@priorityworldwide.com</mat-option>
-        <mat-option value="Exports@priorityworldwide.com">Exports@priorityworldwide.com</mat-option>
-        <mat-option value="Imports@priorityworldwide.com">Imports@priorityworldwide.com</mat-option>
-        <mat-option value="HR@priorityworldwide.com">HR@priorityworldwide.com</mat-option>
+        <mat-option value="Accounting@priorityworldwide.com">AccountingHR&#64;priorityworldwide.com</mat-option>
+        <mat-option value="Operations@priorityworldwide.com">OperationsHR&#64;priorityworldwide.com</mat-option>
+        <mat-option value="Exports@priorityworldwide.com">ExportsHR&#64;priorityworldwide.com</mat-option>
+        <mat-option value="Imports@priorityworldwide.com">ImportsHR&#64;priorityworldwide.com</mat-option>
+        <mat-option value="HR@priorityworldwide.com">HRHR&#64;priorityworldwide.com</mat-option>
 
       </mat-select>
       <div class="error-message" *ngIf="!validationStatus.email">

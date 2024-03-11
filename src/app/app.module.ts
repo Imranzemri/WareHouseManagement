@@ -38,6 +38,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RevTransferComponent } from './rev-transfer/rev-transfer.component';
 import { RevOrderComponent } from './rev-order/rev-order.component';
 import { BireportComponent } from './bireport/bireport.component';
+import { BiSiderbarComponent } from './bi-siderbar/bi-siderbar.component';
+import { BiHomeComponent } from './bi-home/bi-home.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,7 +57,9 @@ import { BireportComponent } from './bireport/bireport.component';
     ShipmentDetailComponent,
     RevTransferComponent,
     RevOrderComponent,
-    BireportComponent 
+    BireportComponent ,
+    BiSiderbarComponent,
+    BiHomeComponent
   ],
   imports: [
     BrowserModule,

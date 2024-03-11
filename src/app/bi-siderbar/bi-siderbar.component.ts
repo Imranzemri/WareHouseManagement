@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component,ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 
 
 @Component({

@@ -40,6 +40,20 @@ import { RevOrderComponent } from './rev-order/rev-order.component';
 import { BireportComponent } from './bireport/bireport.component';
 import { BiSiderbarComponent } from './bi-siderbar/bi-siderbar.component';
 import { BiHomeComponent } from './bi-home/bi-home.component';
+import { TestRecvComponent } from './test-recv/test-recv.component';
+import { ApploaderComponent } from './apploader/apploader.component';
+import { RevReceivingComponent } from './rev-receiving/rev-receiving.component';
+import { FinalizebuttonComponent } from './finalizebutton/finalizebutton.component';
+import { ReviewbuttonComponent } from './reviewbutton/reviewbutton.component';
+import { PrintbuttonComponent } from './printbutton/printbutton.component';
+import { BackgroundpatternComponent } from './backgroundpattern/backgroundpattern.component';
+import { ReceivingDetailsComponent } from './receiving-details/receiving-details.component';
+import { FinalizeReceivingComponent } from './finalize-receiving/finalize-receiving.component';
+import { UpdatedBtnComponent } from './updated-btn/updated-btn.component';
+import { RevFinalizeComponent } from './rev-finalize/rev-finalize.component';
+import { DownloadBtnComponent } from './download-btn/download-btn.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +73,19 @@ import { BiHomeComponent } from './bi-home/bi-home.component';
     RevOrderComponent,
     BireportComponent ,
     BiSiderbarComponent,
-    BiHomeComponent
+    BiHomeComponent,
+    TestRecvComponent,
+    ApploaderComponent,
+    RevReceivingComponent,
+    FinalizebuttonComponent,
+    ReviewbuttonComponent,
+    PrintbuttonComponent,
+    BackgroundpatternComponent,
+    ReceivingDetailsComponent,
+    FinalizeReceivingComponent,
+    UpdatedBtnComponent,
+    RevFinalizeComponent,
+    DownloadBtnComponent,
   ],
   imports: [
     BrowserModule,

@@ -74,7 +74,7 @@
         <a matline style="color: white;"><strong>Cargo</strong></a>
     </mat-list-item> </li>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item  routerLink="/receivings"><strong>Receiving</strong></button>
+      <button mat-menu-item  routerLink="/test"><strong>Receiving</strong></button>
       <button mat-menu-item routerLink="/transfers"><strong>Transfer</strong></button>
       <button mat-menu-item routerLink="/orders"><strong>Order</strong></button>
     </mat-menu>
@@ -82,10 +82,17 @@
       <a matline style="color: white;"><strong>Review Shipment</strong></a>
   </mat-list-item> </li>
   <mat-menu #reviewMenu="matMenu">
-    <button mat-menu-item routerLink="/blog"><strong>Receiving</strong></button>
+    <button mat-menu-item routerLink="/revrecv"><strong>Receiving</strong></button>
     <button mat-menu-item routerLink="/rectransfer"><strong>Transfer</strong></button>
     <button mat-menu-item routerLink="/revorder"><strong>Order</strong></button>
   </mat-menu>
+
+  <li> <mat-list-item [matMenuTriggerFor]="finMenu">
+    <a matline style="color: white;"><strong>Finalized Shipment</strong></a>
+</mat-list-item> </li>
+<mat-menu #finMenu="matMenu">
+  <button mat-menu-item routerLink="/revfinalize"><strong>Finalized Receiving</strong></button>
+</mat-menu>
 
   <li> <mat-list-item [matMenuTriggerFor]="BiMenu">
     <a matline style="color: white;"><strong>Project BI - PWS</strong></a>
@@ -93,7 +100,7 @@
 <mat-menu #BiMenu="matMenu">
   <ul>
     <li>
-      <button mat-menu-item routerLink="/home"><strong>PWSBWI Dashboard</strong></button>
+      <button mat-menu-item (click)="goToDashboard()"><strong>PWSBWI Dashboard</strong></button>
     </li>
   </ul>
   <!-- <button mat-menu-item routerLink="/blog"><strong>Receiving</strong></button>

@@ -1,0 +1,79 @@
+<div class="table-container"  *ngIf="dataSource">
+  
+    <mat-card class="card-bg">
+      <mat-card-content class="card-content">
+        <div class="logo-container">
+          <img src="\assets\logo-img.png" alt="Logo" class="logo">
+        </div>
+        <div class="text-container">
+          Review Receivings
+        </div>
+      </mat-card-content>
+    </mat-card>
+ 
+    <div class="loader-overlay" *ngIf="isLoading">
+      <div class="loader"></div>
+    </div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="ShptNmbr">
+      <th mat-header-cell  *matHeaderCellDef> Shipment Number </th>
+      <td mat-cell *matCellDef="let element; let i = index" [ngClass]="{ 'odd-row': i % 2 === 1, 'even-row': i % 2 === 0 }"> {{ element.shpNmbr }} </td>
+    </ng-container>
+    
+    
+    <ng-container matColumnDef="Name">
+      <th mat-header-cell *matHeaderCellDef> Client Name </th>
+      <td mat-cell *matCellDef="let element; let i = index" [ngClass]="{ 'odd-row': i % 2 === 1, 'even-row': i % 2 === 0 }"> {{ element.name }} </td>
+    </ng-container>
+    
+    
+    <ng-container matColumnDef="InsrDate">
+      <th mat-header-cell *matHeaderCellDef>Date In</th>
+      <td mat-cell *matCellDef="let element; let i = index" [ngClass]="{ 'odd-row': i % 2 === 1, 'even-row': i % 2 === 0 }"> 
+        {{ element.insrDate | date:'yyyy-MM-dd'  }} </td>
+    </ng-container>
+    
+    
+    <ng-container matColumnDef="QrCodes">
+      <th mat-header-cell *matHeaderCellDef>QR codes (Review & Print)</th>
+      <td mat-cell *matCellDef="let element; let i = index" [ngClass]="{ 'odd-row': i % 2 === 1, 'even-row': i % 2 === 0 }">   
+        <div class="button-container">
+            <ng-container *ngIf="element.sts === 'Updated'; else reviewButtonTemplate">
+                <app-updated-btn></app-updated-btn>
+                <app-printbutton [shpData]="element"></app-printbutton>
+              </ng-container>
+              <ng-template #reviewButtonTemplate>
+                <app-reviewbutton [rowData]="element" 
+                  (reviewButtonClick)="handleReviewButtonClick($event)"></app-reviewbutton>
+                  <app-printbutton [shpData]="element"></app-printbutton>
+              </ng-template>
+            <!-- <app-reviewbutton [rowData]="element" [statuses]="status" [shipmentNumber]="shpNos"
+             (reviewButtonClick)="handleReviewButtonClick($event)"></app-reviewbutton> -->
+          </div>   
+         </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="Finalize">
+      <th mat-header-cell *matHeaderCellDef>Finalize For CW</th>
+      <td mat-cell *matCellDef="let element; let i = index" [ngClass]="{ 'odd-row': i % 2 === 1, 'even-row': i % 2 === 0 }">
+        <app-finalizebutton [rowData]="element"></app-finalizebutton>
+    </td>
+    </ng-container>
+     
+      <tr mat-header-row class="header-row" *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"  ></tr>
+    </table>
+    <mat-paginator
+      [length]="totalRecords"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex-1"
+      (page)="pageChangeEvent($event)"
+      [pageSizeOptions]="[5, 10,15, 20,25]"
+      showFirstLastButtons>
+    </mat-paginator>
+    <!-- <button class="back-btn" mat-raised-button color="primary" (click)="backToShipment()" type="submit"><mat-icon>arrow_back</mat-icon>Back To Shipment</button> -->
+    </div>
+
+
+  
+  

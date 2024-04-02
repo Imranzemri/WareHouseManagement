@@ -1,6 +1,6 @@
 /* Apply a top margin to the content to prevent it from being hidden behind the fixed navbar */
 body {
-  padding-top: 56px; /* Adjust this value based on your navbar height */
+  padding-top: 0px;
 }
 
 /* Custom styles for the fixed navbar */

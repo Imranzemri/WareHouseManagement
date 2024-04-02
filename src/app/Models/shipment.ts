@@ -6,6 +6,8 @@ interface WeightArrayItem {
     wunit:string;
     ptype:string;
     qnty:number;
+    Locn:string;
+    GoodDesc:string;
   }
   interface DimensionArrayItem{
     lngth: number;
@@ -16,6 +18,8 @@ interface WeightArrayItem {
     dunit:string;
     ptype:string;
     qnty:number;
+    Locn:string;
+    GoodDesc:string;
   }
    interface ReceiptNumberArrayItem
   {
@@ -64,8 +68,25 @@ export class Shipment {
         public Qnty: number | null = null;
         
         @JsonProperty('Sts', String)
-
         public Sts: string | null = null; 
+
+        @JsonProperty('TrukNmbr', String)
+        public TrukNmbr: string | null = null;
+
+        @JsonProperty('PO', String)
+        public PO: string | null = null;
+
+        @JsonProperty('Supp', String)
+        public Supp: string | null = null;
+        @JsonProperty('InsrDate', String)
+        public InsrDate: Date | null = null;
+        @JsonProperty('UpdtDate', String)
+        public UpdtDate: Date | null = null;
+        @JsonProperty('InsrBy', String)
+        public InsrBy: string | null = null;
+        @JsonProperty('UpdtBy', String)
+        public UpdtBy: string | null = null;
+
          RcptNmbr: ReceiptNumberArrayItem[] =[];
          WeightCollection:WeightArrayItem[]=[];
          DimensionCollection:DimensionArrayItem[]=[];      

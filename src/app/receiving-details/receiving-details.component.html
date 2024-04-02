@@ -1,0 +1,78 @@
+<div class="table-container"  *ngIf="dataSource">
+    <mat-card class="card-bg">
+      <mat-card-content class="card-content">
+        <div class="logo-container">
+          <img src="\assets\logo-img.png" alt="Logo" class="logo">
+        </div>
+        <div class="text-container">
+          Receiving Details
+        </div>
+      </mat-card-content>
+    </mat-card>
+ 
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="shptnmbr">
+      <th mat-header-cell  *matHeaderCellDef>Plt No</th>
+      <td mat-footer-cell *matCellDef="let element; let i = index" > {{ element.plt }} </td>
+    </ng-container>
+    <ng-container matColumnDef="lngth">
+      <th mat-header-cell *matHeaderCellDef>L</th>
+      <td mat-footer-cell *matCellDef="let element; let i = index" >
+         {{ element.lngth }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="width">
+      <th mat-header-cell *matHeaderCellDef>W</th>
+      <td mat-footer-cell *matCellDef="let element; let i = index" > {{ element.width }} </td>
+    </ng-container>
+    <ng-container matColumnDef="height">
+      <th mat-header-cell *matHeaderCellDef>H</th>
+      <td mat-footer-cell *matCellDef="let element; let i = index" >{{element.height}}</td>
+    </ng-container>
+     <ng-container matColumnDef="dunit">
+        <th mat-header-cell *matHeaderCellDef>UD</th>
+        <td mat-footer-cell *matCellDef="let element; let i = index" >{{element.dunit}}</td>
+      </ng-container>
+    <ng-container matColumnDef="wght">
+        <th mat-header-cell *matHeaderCellDef>W</th>
+        <td mat-footer-cell *matCellDef="let element; let i = index">{{element.wght}}</td>
+      </ng-container>
+    
+      <ng-container matColumnDef="wunit">
+        <th mat-header-cell *matHeaderCellDef>UW</th>
+        <td mat-footer-cell *matCellDef="let element; let i = index">{{element.wunit}}</td>
+      </ng-container>
+      <ng-container matColumnDef="locn">
+        <th mat-header-cell *matHeaderCellDef>Location</th>
+        <td mat-footer-cell *matCellDef="let element; let i = index">
+            <input matInput type="text" [(ngModel)]="element.locn"   
+            (input)="handleLocnInput($event,element.rcpNumber)"      
+             class="editable-input">     
+         </td>
+      </ng-container>
+      <ng-container matColumnDef="gooddesc">
+        <th mat-header-cell *matHeaderCellDef>Goods Description</th>
+        <td mat-footer-cell *matCellDef="let element; let i = index">
+            <input matInput type="text" [(ngModel)]="element.gooddesc" 
+            (input)="handleGooddescInput($event,element.rcpNumber)"  
+            class="editable-input">     
+        </td>
+      </ng-container>
+
+      <tr mat-header-row class="header-row" *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>  
+      <!-- <tr mat-footer-row class="footer-row" *matFooterRowDef="['totalweight']"></tr> -->
+        </table>
+        <button mat-raised-button color="primary" class="finalize-button"
+        (click)="openFinalizeData()">
+        Finalize
+       </button>
+    <button mat-raised-button color="primary" class="update-button"
+     (click)="updateLocationAndDescription()">
+     UPDATE
+    </button>
+    </div>
+
+
+  
+  

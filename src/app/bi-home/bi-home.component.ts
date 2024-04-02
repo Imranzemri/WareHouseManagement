@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
+import { ApiService } from '../Services/api.service';
 
 @Component({
   selector: 'app-bi-home',
@@ -8,15 +10,26 @@ import { Router } from '@angular/router';
 })
 export class BiHomeComponent  implements OnInit {
 
-constructor(private router: Router){ }
-
+constructor
+(
+  private router: Router,
+  private service:ApiService
+ )
+  { }
 
   ngOnInit(): void {
+    
+    let currentEndPoint = location.hash;
+    if(this.service.urlEndPoint != undefined) {
+      location.reload();
+    }
+  }
+
 
   //   this.router.navigateByUrl('/home', { skipLocationChange: true }).then(() => {
   //     this.router.navigate(['home']);
   // }); 
-this.reloadCurrentRoute();
+//this.reloadCurrentRoute();
   // this.router.navigateByUrl('/home').then(() => {
 
   //   this.router.navigate(['home']);
@@ -24,12 +37,8 @@ this.reloadCurrentRoute();
   //   //   this.router.navigate(['home']);
   //   // }, 1000);
   // });
- 
-  }
+  //window.location.reload();
+  
 
-  reloadCurrentRoute() {
-   
-    location.reload();
-}
   
 }

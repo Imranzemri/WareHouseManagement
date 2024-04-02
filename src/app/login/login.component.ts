@@ -18,7 +18,7 @@ export class LoginComponent {
     console.log('Password:', this.password);
     //this.router.navigate(['/welcome']);
     if(this.username=='pwswarehouse.user' && this.password=="Priority1"){
-      this.router.navigate(['/receivings']);
+      this.router.navigate(['/test']);
     }
     else{
      this.errorToast();

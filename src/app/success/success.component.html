@@ -6,7 +6,7 @@
   <div class="qr-grid" #qrCodeContainer>
     <div *ngFor="let qrCode of qrCodes let i=index" class="qr-code">  
       <p>{{shipmentNumbers}}</p>
-        <p>{{rcptNumbers[i]}}</p>
+        <p>{{rcptNumbers[i].rcpNumber}}</p>
       <img [src]="qrCode" alt="QR Code" /><br>
       <button mat-raised-button color="secondary" (click)="printQRCode(qrCode,rcptNumbers[i],shipmentNumbers)">Print</button>
     </div>

@@ -1,0 +1,129 @@
+.service-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Use min-height to ensure the container expands to the viewport height */
+    background-color: #ff5e003f;
+    padding: 20px;
+    border-radius: 10px;
+  }
+ 
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start */
+    width: 100%; /* Take up the full width of the container */
+    max-width: 1000px; /* Limit the maximum width */
+    background-color: #ff5e0098;
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 140px; /* Add some top margin for spacing */
+    margin-bottom: -20px;
+    position: relative;
+  }
+ 
+ 
+ 
+ 
+@media only screen and (min-height: 880px) {
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Align items to the start */
+        width: 100%; /* Take up the full width of the container */
+        max-width: 1000px; /* Limit the maximum width */
+        background-color: #ff5e0098;
+        padding: 30px;
+        border-radius: 15px;
+        margin-top: 10px;
+        margin-bottom: -20px;
+        position: relative;
+      }
+  }
+ 
+  .form-content {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+    justify-content: space-between; /* Space items evenly */
+    width: 100%; /* Occupy full width */
+  }
+ 
+  .form-field {
+    width: calc(50% - 20px); /* Set width of each form field */
+    margin-bottom: 20px; /* Add some bottom margin for spacing */
+  }
+ 
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+ 
+  .text-container {
+    position: absolute;
+    top: 125px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    background-color: white;
+    width: 250px;
+    height: 30px;
+    border-radius: 15px;
+    color: black;
+    z-index: 999;
+  }
+/*
+  .group-box {
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  } */
+ 
+  .group-box {
+    display: inline-block;
+    border: 4px solid darkslategray;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    height: auto;
+  }
+ 
+ 
+  .save-button-container {
+    position: absolute;
+    bottom: 20px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .radio-buttons-container {
+    border: 4px solid darkslategray; /* Add a border around the container */
+    border-radius: 5px; /* Add border radius for rounded corners */
+    padding: 10px; /* Add padding to the container */
+    margin-bottom: 70px; /* Add margin to create space between this and other elements */
+    display: flex; /* Display the items inline */
+    width: 979px;
+  }
+  
+  .radio-buttons-container .form-field {
+    margin-right: 20px; /* Add some space between the radio button groups */
+  }
+  
+  /* Remove margin from the last form-field to prevent extra space */
+  .radio-buttons-container .form-field:last-child {
+    margin-right: 0;
+  }
+  .form-field button {
+    position: absolute;
+    right: 8px; /* Adjust the distance from the right side */
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+
+  
+

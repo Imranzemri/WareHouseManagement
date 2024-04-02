@@ -14,15 +14,16 @@ export class ApiService {
 
 
 
-  localUrl = "https://localhost:7196/api/Shipment";
+  localUrl = "https://localhost:44362/api/Shipment";
   prodUrl = "https://pwswarehouseapi.azurewebsites.net/api/Shipment";
   private apiUrl = this.prodUrl;
 
-
+  urlEndPoint:any;
   qrs: any;
   rcptNmbrs: any;
   shipNum: any;
   rowdata: any;
+  sts:any[] =[];
   shipmentData!: Shipment;
   constructor(private http: HttpClient) { }
 
@@ -58,10 +59,26 @@ export class ApiService {
 
 
   //Get request for Receiving
-  getAllShipments(page: number, pageSize: number): Observable<any[]> {
+   getAllShipments(page: number, pageSize: number):Observable<any[]>{
     const params = { page: page.toString(), pageSize: pageSize.toString() };
-    return this.http.get<any[]>(this.apiUrl, { params }).pipe(catchError(this.handleError));
+    return this.http.get<any[]>(this.apiUrl+'/GetShipments', { params }).pipe(catchError(this.handleError));
   }
+
+
+   getShipmentsById(shpNmbr:string):Observable<any[]>{
+    const params = { shpNmbr: shpNmbr.toString() };
+    return this.http.get<any[]>(this.apiUrl+'/GetShipmentById', { params }).pipe(catchError(this.handleError));
+  }
+
+  //Get request for Receiving
+  getUpdatedShipments(page: number, pageSize: number): Observable<any[]> {
+    const params = { page: page.toString(), pageSize: pageSize.toString() };
+    return this.http.get<any[]>(this.apiUrl+'/GetUpdatedShipments', { params }).pipe(catchError(this.handleError));
+  }
+
+
+
+
 
 
   //post request for Receiving Driver details
@@ -77,6 +94,16 @@ export class ApiService {
       .pipe(
         catchError(this.handleError)
       );
+  }
+
+  updateLocationAndDescription(locn:string, desc:string, rcpNumber:string, shipmentNo:string):Observable<any[]>
+  {
+    const data:any= {locn:locn, description:desc, rcptNumber:rcpNumber, shipmentNo:shipmentNo};
+    const httpOptions={
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.put<string[]>(this.localUrl+'/UpdateLocationAndDescription', data, httpOptions)
+               .pipe(catchError(this.handleError));
   }
 
   //generate receipt numbvers

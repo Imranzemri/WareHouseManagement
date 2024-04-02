@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
+import { ApiService } from '../Services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-app-layout',
@@ -8,7 +10,10 @@ import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/cor
 })
 export class AppLayoutComponent {
   @Output() public sidenavToggle = new EventEmitter();
-  constructor() {}
+  constructor(
+    private service:ApiService,
+    private router:Router
+    ) {}
   showCargoMenu: boolean = false;
   isCollapsed = false;
 
@@ -24,5 +29,9 @@ export class AppLayoutComponent {
 
   toggleCargoMenu() {
     this.showCargoMenu = !this.showCargoMenu;
+  }
+  goToDashboard(){
+   this.service.urlEndPoint = location.hash;
+   this.router.navigate(['home']);
   }
 }

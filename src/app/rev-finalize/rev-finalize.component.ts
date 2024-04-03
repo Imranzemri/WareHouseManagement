@@ -9,7 +9,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 import * as Papa from 'papaparse';
-import jsPDF from 'jspdf';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
   

@@ -180,7 +180,7 @@ declare module 'sweetalert2' {
      * Swal.showLoading(Swal.getDenyButton())
      * ```
      */
-    function showLoading(buttonToReplace?: HTMLButtonElement): void
+    function showLoading(buttonToReplace?: HTMLButtonElement | null): void
 
     /**
      * Hides loader and shows back the button which was hidden by .showLoading()
@@ -274,7 +274,7 @@ declare module 'sweetalert2' {
      * Increase timer. Returns number of milliseconds of an updated timer.
      * If `timer` parameter isn't set, returns `undefined`.
      *
-     * @param ms The number of milliseconds to add to the currect timer
+     * @param ms The number of milliseconds to add to the current timer
      */
     function increaseTimer(ms: number): number | undefined
 
@@ -366,6 +366,7 @@ declare module 'sweetalert2' {
     | 'password'
     | 'number'
     | 'tel'
+    | 'search'
     | 'range'
     | 'textarea'
     | 'select'
@@ -373,6 +374,49 @@ declare module 'sweetalert2' {
     | 'checkbox'
     | 'file'
     | 'url'
+    | 'date'
+    | 'datetime-local'
+    | 'time'
+    | 'week'
+    | 'month'
+
+  type SweetAlertStringInput = Exclude<SweetAlertInput, 'file'>
+
+  type SweetAlertInputValidator =
+    | {
+        input?: SweetAlertStringInput
+        /**
+         * Validator for input field, may be async (Promise-returning) or sync.
+         *
+         * Example:
+         * ```
+         * Swal.fire({
+         *   input: 'radio',
+         *   inputValidator: result => !result && 'You need to select something!'
+         * })
+         * ```
+         *
+         * @default undefined
+         */
+        inputValidator?: (value: string) => SyncOrAsync<string | null | false | void>
+      }
+    | {
+        input: 'file'
+        /**
+         * Validator for input field, may be async (Promise-returning) or sync.
+         *
+         * Example:
+         * ```
+         * Swal.fire({
+         *   input: 'file',
+         *   inputValidator: result => !result && 'You need to select something!'
+         * })
+         * ```
+         *
+         * @default undefined
+         */
+        inputValidator?: (file: File | FileList | null) => SyncOrAsync<string | null | false | void>
+      }
 
   export type SweetAlertPosition =
     | 'top'
@@ -461,7 +505,7 @@ declare module 'sweetalert2' {
     readonly dismiss?: Swal.DismissReason
   }
 
-  export interface SweetAlertOptions {
+  export type SweetAlertOptions = SweetAlertInputValidator & {
     /**
      * The title of the popup, as HTML.
      * It can either be added to the object under the key `title` or passed as the first parameter of `Swal.fire()`.
@@ -606,14 +650,6 @@ declare module 'sweetalert2' {
     target?: string | HTMLElement | null
 
     /**
-     * Input field type, can be `'text'`, `'email'`, `'password'`, `'number'`, `'tel'`, `'range'`, `'textarea'`,
-     * `'select'`, `'radio'`, `'checkbox'`, `'file'` and `'url'`.
-     *
-     * @default undefined
-     */
-    input?: SweetAlertInput
-
-    /**
      * Popup width, including paddings (`box-sizing: border-box`).
      *
      * @default undefined
@@ -654,6 +690,13 @@ declare module 'sweetalert2' {
      * @default false
      */
     grow?: SweetAlertGrow
+
+    /**
+     * If set to `false`, the popup animation will be disabled.
+     *
+     * @default true
+     */
+    animation?: boolean
 
     /**
      * CSS classes for animations when showing a popup (fade in)
@@ -1072,22 +1115,6 @@ declare module 'sweetalert2' {
     inputAttributes?: Record<string, string>
 
     /**
-     * Validator for input field, may be async (Promise-returning) or sync.
-     *
-     * Example:
-     * ```
-     * Swal.fire({
-     *   title: 'Select color',
-     *   input: 'radio',
-     *   inputValidator: result => !result && 'You need to select something!'
-     * })
-     * ```
-     *
-     * @default undefined
-     */
-    inputValidator?(inputValue: string, validationMessage?: string): SyncOrAsync<string | null | false | void>
-
-    /**
      * If you want to return the input value as `result.value` when denying the popup, set to `true`.
      * Otherwise, the denying will set `result.value` to `false`.
      *
@@ -1102,7 +1129,7 @@ declare module 'sweetalert2' {
      * ```
      * Swal.fire({
      *   input: 'email',
-     *   validationMessage: 'Adresse e-mail invalide'
+     *   validationMessage: 'Invalid email address'
      * })
      * ```
      *

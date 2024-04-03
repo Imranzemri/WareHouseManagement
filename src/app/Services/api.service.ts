@@ -16,7 +16,7 @@ export class ApiService {
 
   localUrl = "https://localhost:44362/api/Shipment";
   prodUrl = "https://pwswarehouseapi.azurewebsites.net/api/Shipment";
-  private apiUrl = this.prodUrl;
+  private apiUrl = this.localUrl;
 
   urlEndPoint:any;
   qrs: any;
